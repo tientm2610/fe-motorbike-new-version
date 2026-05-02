@@ -60,10 +60,10 @@
 - [✅] 2.3.6 Sticky add to cart
 
 ### 2.4 Cart
-- [ ] 2.4.1 Cart page (`/cart`)
-- [ ] 2.4.2 Cart item component
-- [ ] 2.4.3 Quantity adjustment
-- [ ] 2.4.4 Cart summary
+- [✅] 2.4.1 Cart page (`/cart`)
+- [✅] 2.4.2 Cart item component
+- [✅] 2.4.3 Quantity adjustment
+- [✅] 2.4.4 Cart summary
 
 ### 2.5 Checkout
 - [ ] 2.5.1 Checkout page (`/checkout`)
@@ -159,18 +159,19 @@
 
 ```
 Phase 1: Foundation    [ 15 / 15 ] 100% ✅
-Phase 2: Storefront    [ 16 / 25 ] 64%
+Phase 2: Storefront    [ 20 / 25 ] 80%
   - 2.1 Homepage       [ 4 / 4 ] 100%
   - 2.2 Product List  [ 6 / 6 ] 100%
   - 2.3 Product Detail [ 6 / 6 ] 100%
+  - 2.4 Cart          [ 4 / 4 ] 100%
 Phase 3: Auth          [ 0 / 6 ] 0%
 Phase 4: Admin         [ 0 / 16 ] 0%
 Phase 5: Staff         [ 0 / 4 ] 0%
 Phase 6: Polish        [ 0 / 7 ] 0%
 ──────────────────────────────
-TOTAL:                 [ 31 / 70 ] 44%
+TOTAL:                 [ 35 / 70 ] 50%
 ```
 
 ---
 
-*Last updated: 2.3 Product Detail Complete ✅*
+*Last updated: 2.4 Cart Complete ✅*
