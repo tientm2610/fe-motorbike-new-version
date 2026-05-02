@@ -35,10 +35,10 @@ const ListIcon = () => (
 );
 
 const sortOptions = [
-  { value: "createdAt,DESC", label: "Newest First" },
-  { value: "createdAt,ASC", label: "Oldest First" },
-  { value: "minPrice,ASC", label: "Price: Low to High" },
-  { value: "minPrice,DESC", label: "Price: High to Low" },
+  { value: "createdAt,DESC", label: "Mới nhất" },
+  { value: "createdAt,ASC", label: "Cũ nhất" },
+  { value: "minPrice,ASC", label: "Giá: Thấp đến cao" },
+  { value: "minPrice,DESC", label: "Giá: Cao đến thấp" },
 ];
 
 const initialFilters: MotorcycleFilters = {
@@ -107,10 +107,10 @@ function MotorcyclesContent() {
           className="mb-8"
         >
           <h1 className="text-3xl font-bold text-neutral-900 dark:text-white">
-            Motorcycles
+            Danh sách xe máy
           </h1>
           <p className="mt-2 text-neutral-600 dark:text-neutral-400">
-            {totalElements} motorcycles available
+            {totalElements} xe máy có sẵn
           </p>
         </motion.div>
 
@@ -122,7 +122,7 @@ function MotorcyclesContent() {
               </div>
               <Input
                 type="search"
-                placeholder="Search motorcycles..."
+                placeholder="Tìm xe máy..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-10"
@@ -137,7 +137,7 @@ function MotorcyclesContent() {
               onClick={() => setMobileFilterOpen(true)}
             >
               <FilterIcon />
-              Filters
+              Bộ lọc
             </Button>
 
             {/* <Select
@@ -202,14 +202,14 @@ function MotorcyclesContent() {
               </div>
             ) : isError ? (
               <EmptyState
-                title="Error loading motorcycles"
-                description="Something went wrong. Please try again."
-                action={{ label: "Retry", onClick: () => window.location.reload() }}
+                title="Lỗi tải dữ liệu"
+                description="Đã xảy ra lỗi. Vui lòng thử lại."
+                action={{ label: "Thử lại", onClick: () => window.location.reload() }}
               />
             ) : motorcycles.length === 0 ? (
               <EmptyState
-                title="No motorcycles found"
-                description="Try adjusting your filters or search query."
+                title="Không tìm thấy xe máy"
+                description="Thử điều chỉnh bộ lọc hoặc từ khóa tìm kiếm."
                 icon={
                   <svg className="h-16 w-16 text-neutral-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -245,7 +245,7 @@ function MotorcyclesContent() {
                   disabled={page === 0}
                   onClick={() => setPage((p) => p - 1)}
                 >
-                  Previous
+                  Trước
                 </Button>
                 {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
                   const pageNum = i + Math.max(0, page - 2);
@@ -265,7 +265,7 @@ function MotorcyclesContent() {
                   disabled={page >= totalPages - 1}
                   onClick={() => setPage((p) => p + 1)}
                 >
-                  Next
+                  Tiếp
                 </Button>
               </div>
             )}

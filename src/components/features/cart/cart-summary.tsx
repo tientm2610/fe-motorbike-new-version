@@ -17,7 +17,7 @@ export function CartSummary({ subtotal, estimatedTotal, totalQuantity }: CartSum
 
       <div className="space-y-3 text-sm">
         <div className="flex justify-between text-neutral-600 dark:text-neutral-400">
-          <span>Subtotal ({totalQuantity} items)</span>
+          <span>Tạm tính ({totalQuantity} sản phẩm)</span>
           <span>
             {new Intl.NumberFormat("vi-VN", { 
               style: "currency", 
@@ -28,19 +28,19 @@ export function CartSummary({ subtotal, estimatedTotal, totalQuantity }: CartSum
         </div>
 
         <div className="flex justify-between text-neutral-600 dark:text-neutral-400">
-          <span>Shipping</span>
-          <span className="text-success">Free</span>
-        </div>
+<span>Phí vận chuyển</span>
+            <span className="text-success">Miễn phí</span>
+          </div>
 
-        <div className="flex justify-between text-neutral-600 dark:text-neutral-400">
-          <span>Tax</span>
+          <div className="flex justify-between text-neutral-600 dark:text-neutral-400">
+            <span>Thuế</span>
           <span>Calculated at checkout</span>
         </div>
       </div>
 
       <div className="border-t border-neutral-200 dark:border-neutral-800 pt-4">
         <div className="flex justify-between items-center">
-          <span className="font-semibold text-neutral-900 dark:text-white">Total</span>
+          <span className="font-semibold text-neutral-900 dark:text-white">Tổng cộng</span>
           <span className="text-2xl font-bold text-primary-600 dark:text-primary-400">
             {new Intl.NumberFormat("vi-VN", { 
               style: "currency", 
@@ -56,7 +56,7 @@ export function CartSummary({ subtotal, estimatedTotal, totalQuantity }: CartSum
         size="lg"
         className="w-full justify-center"
       >
-        Proceed to Checkout
+        Tiến hành thanh toán
       </ButtonLink>
 
       <p className="text-xs text-neutral-500 dark:text-neutral-400 text-center">

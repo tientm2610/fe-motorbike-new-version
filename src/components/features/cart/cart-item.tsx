@@ -89,7 +89,7 @@ export function CartItem({ item, onUpdateQuantity, onRemove, isUpdating }: CartI
           </button>
         </div>
 
-        {/* Subtotal */}
+        {/* Thành tiền */}
         <p className="font-bold text-neutral-900 dark:text-white">
           {new Intl.NumberFormat("vi-VN", { 
             style: "currency", 
@@ -104,7 +104,7 @@ export function CartItem({ item, onUpdateQuantity, onRemove, isUpdating }: CartI
           disabled={isUpdating}
           className="text-sm text-neutral-500 hover:text-error transition-colors disabled:opacity-50"
         >
-          Remove
+Xóa
         </button>
       </div>
     </div>

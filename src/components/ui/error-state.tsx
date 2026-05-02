@@ -57,9 +57,9 @@ interface NetworkErrorProps {
 export function NetworkError({ onRetry, className }: NetworkErrorProps) {
   return (
     <ErrorState
-      title="Network Error"
-      description="Please check your internet connection and try again."
-      action={onRetry ? { label: "Try Again", onClick: onRetry } : undefined}
+      title="Lỗi mạng"
+      description="Vui lòng kiểm tra kết nối internet và thử lại."
+      action={onRetry ? { label: "Thử lại", onClick: onRetry } : undefined}
       className={className}
     />
   );
@@ -74,9 +74,9 @@ interface NotFoundErrorProps {
 }
 
 export function NotFoundError({
-  title = "Page not found",
-  description = "The page you're looking for doesn't exist or has been moved.",
-  actionLabel = "Go Home",
+  title = "Không tìm thấy trang",
+  description = "Trang bạn đang tìm kiếm không tồn tại hoặc đã được di chuyển.",
+  actionLabel = "Về trang chủ",
   onAction,
   className,
 }: NotFoundErrorProps) {

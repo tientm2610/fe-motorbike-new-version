@@ -66,33 +66,33 @@
 - [✅] 2.4.4 Cart summary
 
 ### 2.5 Checkout
-- [ ] 2.5.1 Checkout page (`/checkout`)
-- [ ] 2.5.2 Shipping form
-- [ ] 2.5.3 Payment method selector
-- [ ] 2.5.4 Order placement
+- [✅] 2.5.1 Checkout page (`/checkout`)
+- [✅] 2.5.2 Shipping form
+- [✅] 2.5.3 Payment method selector
+- [✅] 2.5.4 Order placement
 
 ### 2.6 My Orders
-- [ ] 2.6.1 Orders list page (`/orders`)
-- [ ] 2.6.2 Order detail view
-- [ ] 2.6.3 Cancel order functionality
+- [✅] 2.6.1 Orders list page (`/orders`)
+- [✅] 2.6.2 Order detail view
+- [✅] 2.6.3 Cancel order functionality
 
 ---
 
 ## Phase 3: Authentication Pages
 
 ### 3.1 Login
-- [ ] 3.1.1 Login page (`/login`)
-- [ ] 3.1.2 Form validation
-- [ ] 3.1.3 Remember me
+- [✅] 3.1.1 Login page (`/login`)
+- [✅] 3.1.2 Form validation
+- [✅] 3.1.3 Remember me
 
 ### 3.2 Register
-- [ ] 3.2.1 Register page (`/register`)
-- [ ] 3.2.2 Form validation
+- [✅] 3.2.1 Register page (`/register`)
+- [✅] 3.2.2 Form validation
 
 ### 3.3 User Menu
-- [ ] 3.3.1 User dropdown component
-- [ ] 3.3.2 Profile link
-- [ ] 3.3.3 Logout functionality
+- [✅] 3.3.1 User dropdown component
+- [✅] 3.3.2 Profile link
+- [✅] 3.3.3 Logout functionality
 
 ---
 
@@ -159,19 +159,21 @@
 
 ```
 Phase 1: Foundation    [ 15 / 15 ] 100% ✅
-Phase 2: Storefront    [ 20 / 25 ] 80%
+Phase 2: Storefront    [ 25 / 25 ] 100% ✅
   - 2.1 Homepage       [ 4 / 4 ] 100%
   - 2.2 Product List  [ 6 / 6 ] 100%
   - 2.3 Product Detail [ 6 / 6 ] 100%
   - 2.4 Cart          [ 4 / 4 ] 100%
-Phase 3: Auth          [ 0 / 6 ] 0%
+  - 2.5 Checkout      [ 4 / 4 ] 100%
+  - 2.6 My Orders     [ 3 / 3 ] 100%
+Phase 3: Auth          [ 6 / 6 ] 100% ✅
 Phase 4: Admin         [ 0 / 16 ] 0%
 Phase 5: Staff         [ 0 / 4 ] 0%
 Phase 6: Polish        [ 0 / 7 ] 0%
 ──────────────────────────────
-TOTAL:                 [ 35 / 70 ] 50%
+TOTAL:                 [ 48 / 70 ] 69%
 ```
 
 ---
 
-*Last updated: 2.4 Cart Complete ✅*
+*Last updated: Phase 3 Auth Complete ✅*

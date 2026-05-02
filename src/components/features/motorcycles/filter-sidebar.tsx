@@ -108,7 +108,7 @@ export function FilterSidebar({ filters, onFiltersChange, brands, categories, cl
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <FilterIcon />
-          <span className="font-semibold text-neutral-900 dark:text-white">Filters</span>
+          <span className="font-semibold text-neutral-900 dark:text-white">Bộ lọc</span>
           {activeFiltersCount > 0 && (
             <Badge variant="info">{activeFiltersCount}</Badge>
           )}
@@ -118,12 +118,12 @@ export function FilterSidebar({ filters, onFiltersChange, brands, categories, cl
             onClick={clearFilters}
             className="text-sm text-neutral-500 hover:text-primary-600 dark:text-neutral-400 dark:hover:text-primary-400"
           >
-            Clear all
+            Xóa tất cả
           </button>
         )}
       </div>
 
-      <FilterSection title="Brands">
+      <FilterSection title="Hãng xe">
         <div className="space-y-3">
           {brands.map((brand) => (
             <label key={brand.id} className="flex items-center gap-3 cursor-pointer group">
@@ -139,7 +139,7 @@ export function FilterSidebar({ filters, onFiltersChange, brands, categories, cl
         </div>
       </FilterSection>
 
-      <FilterSection title="Categories">
+      <FilterSection title="Danh mục">
         <div className="space-y-3">
           {categories.map((category) => (
             <label key={category.id} className="flex items-center gap-3 cursor-pointer group">
@@ -155,14 +155,14 @@ export function FilterSidebar({ filters, onFiltersChange, brands, categories, cl
         </div>
       </FilterSection>
 
-      <FilterSection title="Availability">
+      <FilterSection title="Tình trạng">
         <label className="flex items-center gap-3 cursor-pointer group">
           <Checkbox
             checked={filters.inStockOnly}
             onChange={(e) => onFiltersChange({ ...filters, inStockOnly: e.target.checked })}
           />
           <span className="text-sm text-neutral-600 dark:text-neutral-400 group-hover:text-neutral-900 dark:group-hover:text-white">
-            In Stock Only
+            Chỉ hiển thị còn hàng
           </span>
         </label>
       </FilterSection>

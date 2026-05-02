@@ -52,7 +52,7 @@ export function HeroSection() {
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-100 text-primary-700 text-sm font-medium dark:bg-primary-900/30 dark:text-primary-300 mb-6"
             >
               <span className="w-2 h-2 rounded-full bg-primary-500 animate-pulse" />
-              Premium Honda Dealership
+              Đại lý Honda chính hãng
             </motion.span>
 
             <motion.h1
@@ -63,7 +63,7 @@ export function HeroSection() {
             >
               Ride Your
               <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-primary-400">
-                Dream Machine
+                Chiếc xe mơ ước
               </span>
             </motion.h1>
 
@@ -85,11 +85,11 @@ export function HeroSection() {
             >
               <ButtonLink href="/motorcycles" size="lg" className="group">
                   <MotorcycleIcon />
-                  Explore Motorcycles
+                  Khám phá xe máy
                   <ArrowRightIcon />
                 </ButtonLink>
                 <ButtonLink href="/about" variant="outline" size="lg">
-                  Learn More
+                  Tìm hiểu thêm
                 </ButtonLink>
             </motion.div>
 
@@ -101,9 +101,9 @@ export function HeroSection() {
               className="mt-16 grid grid-cols-3 gap-8"
             >
               {[
-                { value: "500+", label: "Motorcycles" },
-                { value: "15+", label: "Years Experience" },
-                { value: "10k+", label: "Happy Customers" },
+                { value: "500+", label: "Xe máy" },
+                { value: "15+", label: "Năm kinh nghiệm" },
+                { value: "10k+", label: "Khách hàng hài lòng" },
               ].map((stat, index) => (
                 <div key={index}>
                   <div className="text-3xl font-bold text-neutral-900 dark:text-white">
@@ -142,11 +142,11 @@ export function HeroSection() {
                 <div className="bg-white/90 dark:bg-neutral-900/90 backdrop-blur-sm rounded-xl p-4">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm text-neutral-500 dark:text-neutral-400">Starting from</p>
+                      <p className="text-sm text-neutral-500 dark:text-neutral-400">Giá từ</p>
                       <p className="text-2xl font-bold text-neutral-900 dark:text-white">₫35,000,000</p>
                     </div>
                     <span className="px-3 py-1 bg-success/20 text-success text-sm font-medium rounded-full">
-                      In Stock
+                      Còn hàng
                     </span>
                   </div>
                 </div>

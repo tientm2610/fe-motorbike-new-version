@@ -25,8 +25,8 @@ const LogoIcon = () => (
 );
 
 const staffLinks = [
-  { href: "/staff", label: "Dashboard" },
-  { href: "/staff/orders", label: "Orders" },
+  { href: "/staff", label: "Tổng quan" },
+  { href: "/staff/orders", label: "Đơn hàng" },
   { href: "/staff/inventory", label: "Inventory" },
   { href: "/staff/customers", label: "Customers" },
 ];

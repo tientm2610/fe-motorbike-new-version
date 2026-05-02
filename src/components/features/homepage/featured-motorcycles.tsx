@@ -67,10 +67,11 @@ export function FeaturedMotorcycles() {
             New Arrivals
           </span>
           <h2 className="mt-4 text-3xl sm:text-4xl font-bold text-neutral-900 dark:text-white">
-            Featured Motorcycles
-          </h2>
-          <p className="mt-4 text-lg text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto">
-            Explore our latest collection of premium Honda motorcycles
+Xe nổi bật
+
+              Khám phá bộ sưu tập xe Honda mới nhất
+            </h2>
+            <p className="mt-2 text-neutral-600 dark:text-neutral-400 max-w-2xl">
           </p>
         </motion.div>
 
@@ -98,9 +99,9 @@ export function FeaturedMotorcycles() {
                     {/* Badge */}
                     <div className="absolute top-3 left-3">
                       {motorcycle.inStock ? (
-                        <Badge variant="success">In Stock</Badge>
+                        <Badge variant="success">Còn hàng</Badge>
                       ) : (
-                        <Badge variant="error">Out of Stock</Badge>
+                        <Badge variant="error">Hết hàng</Badge>
                       )}
                     </div>
 
@@ -140,7 +141,7 @@ export function FeaturedMotorcycles() {
         >
           <Link href="/motorcycles">
             <Button variant="outline" size="lg">
-              View All Motorcycles
+              Xem tất cả xe
             </Button>
           </Link>
         </motion.div>

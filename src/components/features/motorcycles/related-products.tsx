@@ -20,7 +20,7 @@ export function RelatedProducts({ products, currentProductId }: RelatedProductsP
   return (
     <div className="space-y-6">
       <h2 className="text-xl font-bold text-neutral-900 dark:text-white">
-        Related Products
+        Sản phẩm liên quan
       </h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -64,9 +64,9 @@ export function RelatedProducts({ products, currentProductId }: RelatedProductsP
                 </span>
 
                 {product.totalStock > 0 ? (
-                  <span className="text-xs text-success">In stock</span>
+                  <span className="text-xs text-success">Còn hàng</span>
                 ) : (
-                  <span className="text-xs text-neutral-400">Out of stock</span>
+                  <span className="text-xs text-neutral-400">Hết hàng</span>
                 )}
               </div>
             </div>

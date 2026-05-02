@@ -18,7 +18,7 @@ export function VariantSelector({ variants, selectedVariant, onSelect }: Variant
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <span className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
-          Color / Version
+          Màu sắc / Phiên bản
         </span>
         {selectedVariant && (
           <span className="text-sm text-neutral-500 dark:text-neutral-400">

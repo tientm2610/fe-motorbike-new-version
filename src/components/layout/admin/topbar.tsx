@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { IconButton, Input } from "@/components/ui";
 
-const SearchIcon = () => (
+const IconSearch = () => (
   <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
     <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
   </svg>
@@ -89,11 +89,11 @@ export function Topbar({ breadcrumbs, onMenuClick }: TopbarProps) {
         <div className="hidden w-64 md:block">
           <div className="relative">
             <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-              <SearchIcon />
+              <IconSearch />
             </div>
             <Input
               type="search"
-              placeholder="Search..."
+              placeholder="Tìm kiếm..."
               className="pl-10"
             />
           </div>

@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button, IconButton, Input, Avatar, ThemeToggle } from "@/components/ui";
+import { UserMenu } from "@/components/features/auth/user-menu";
 import { cn } from "@/lib";
 
 const Logo = () => (
@@ -19,7 +20,7 @@ const Logo = () => (
   </Link>
 );
 
-const SearchIcon = () => (
+const IconSearch = () => (
   <svg className="h-5 w-5 text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
     <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
   </svg>
@@ -89,11 +90,11 @@ export function Header({ className }: HeaderProps) {
           <div className="hidden w-64 lg:block">
             <div className="relative">
               <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                <SearchIcon />
+                <IconSearch />
               </div>
               <Input
                 type="search"
-                placeholder="Search motorcycles..."
+                placeholder="Tìm xe máy..."
                 className="pl-10"
               />
             </div>
@@ -112,10 +113,7 @@ export function Header({ className }: HeaderProps) {
 
           {/* User Menu */}
           <div className="hidden md:block">
-            <Button variant="ghost" size="sm">
-              <Avatar fallback="U" size="sm" className="mr-2" />
-              Sign In
-            </Button>
+            <UserMenu />
           </div>
 
           {/* Mobile Menu Button */}
@@ -132,11 +130,11 @@ export function Header({ className }: HeaderProps) {
           <div className="mb-4">
             <div className="relative">
               <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                <SearchIcon />
+                <IconSearch />
               </div>
               <Input
                 type="search"
-                placeholder="Search motorcycles..."
+                placeholder="Tìm xe máy..."
                 className="pl-10"
               />
             </div>

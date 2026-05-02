@@ -19,9 +19,9 @@ export default function CartPage() {
     setIsUpdating(itemId);
     try {
       await updateItem(itemId, quantity);
-      toast.success("Updated", "Cart updated successfully");
+      toast.success("Đã cập nhật", "Giỏ hàng đã được cập nhật");
     } catch (error) {
-      toast.error("Error", "Failed to update quantity");
+      toast.error("Lỗi", "Không thể cập nhật số lượng");
     } finally {
       setIsUpdating(null);
     }
@@ -31,9 +31,9 @@ export default function CartPage() {
     setIsUpdating(itemId);
     try {
       await removeItem(itemId);
-      toast.success("Removed", "Item removed from cart");
+      toast.success("Đã xóa", "Sản phẩm đã được xóa khỏi giỏ");
     } catch (error) {
-      toast.error("Error", "Failed to remove item");
+      toast.error("Lỗi", "Không thể xóa sản phẩm");
     } finally {
       setIsUpdating(null);
     }
@@ -62,7 +62,7 @@ export default function CartPage() {
             </svg>
           </div>
           <h1 className="text-2xl font-bold text-neutral-900 dark:text-white mb-2">
-            Your cart is empty
+            Giỏ hàng trống
           </h1>
           <p className="text-neutral-500 dark:text-neutral-400 mb-8">
             Looks like you haven't added any items to your cart yet.
@@ -120,7 +120,7 @@ export default function CartPage() {
             {/* Continue Shopping */}
             <div className="mt-4 text-center">
               <ButtonLink href="/motorcycles" variant="ghost" size="sm">
-                ← Continue Shopping
+                ← Tiếp tục mua sắm
               </ButtonLink>
             </div>
           </div>

@@ -62,7 +62,7 @@ export function CTASection() {
                 viewport={{ once: true }}
                 className="text-3xl sm:text-4xl font-bold text-neutral-900 dark:text-white"
               >
-                Ready to Ride?
+                Sẵn sàng để lái?
               </motion.h2>
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
@@ -71,7 +71,7 @@ export function CTASection() {
                 transition={{ delay: 0.1 }}
                 className="mt-4 text-lg text-neutral-600 dark:text-neutral-400"
               >
-                Visit our showroom or contact us today to find your perfect Honda motorcycle.
+                Hãy đến showroom hoặc liên hệ với chúng tôi hôm nay để tìm chiếc xe Honda hoàn hảo cho bạn.
               </motion.p>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -80,8 +80,8 @@ export function CTASection() {
                 transition={{ delay: 0.2 }}
                 className="mt-8 flex flex-wrap gap-4"
               >
-                <ButtonLink href="/motorcycles" size="lg">Browse Motorcycles</ButtonLink>
-                <ButtonLink href="/contact" variant="outline" size="lg">Contact Us</ButtonLink>
+                <ButtonLink href="/motorcycles" size="lg">Xem xe máy</ButtonLink>
+                <ButtonLink href="/contact" variant="outline" size="lg">Liên hệ</ButtonLink>
               </motion.div>
             </div>
 

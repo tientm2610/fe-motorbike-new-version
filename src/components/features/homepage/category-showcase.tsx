@@ -51,7 +51,7 @@ export function CategoryShowcase() {
           className="text-center mb-12"
         >
           <span className="inline-block px-4 py-1.5 rounded-full bg-accent-100 text-accent-700 text-sm font-medium dark:bg-accent-900/30 dark:text-accent-300">
-            Browse by Category
+            Danh mục xe
           </span>
           <h2 className="mt-4 text-3xl sm:text-4xl font-bold text-neutral-900 dark:text-white">
             Find Your Perfect Bike

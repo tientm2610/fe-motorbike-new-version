@@ -55,11 +55,10 @@ const SettingsIcon = () => (
 );
 
 const sidebarLinks = [
-  { href: "/admin", label: "Dashboard", icon: DashboardIcon },
-  { href: "/admin/motorcycles", label: "Motorcycles", icon: MotorcycleIcon },
-  { href: "/admin/orders", label: "Orders", icon: OrdersIcon },
-  { href: "/admin/customers", label: "Customers", icon: UsersIcon },
-  { href: "/admin/settings", label: "Settings", icon: SettingsIcon },
+{ href: "/admin", label: "Tổng quan", icon: DashboardIcon },
+  { href: "/admin/orders", label: "Đơn hàng", icon: OrdersIcon },
+  { href: "/admin/customers", label: "Khách hàng", icon: UsersIcon },
+  { href: "/admin/settings", label: "Cài đặt", icon: SettingsIcon },
 ];
 
 interface SidebarProps {
