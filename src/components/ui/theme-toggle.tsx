@@ -1,7 +1,7 @@
 "use client";
 
 import { useTheme } from "next-themes";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { IconButton } from "./icon-button";
 
 const SunIcon = () => (
@@ -30,9 +30,11 @@ const themes = [
 
 function useMounted() {
   const [mounted, setMounted] = useState(false);
-  if (!mounted) {
+  
+  useEffect(() => {
     setMounted(true);
-  }
+  }, []);
+  
   return mounted;
 }
 
@@ -40,7 +42,9 @@ export function ThemeToggle({ className }: { className?: string }) {
   const { theme, setTheme } = useTheme();
   const mounted = useMounted();
 
-  if (!mounted) return null;
+  if (!mounted) {
+    return <IconButton variant="ghost" size="sm" className={className}><SunIcon /></IconButton>;
+  }
 
   const currentIndex = themes.findIndex((t) => t.value === theme);
   const nextIndex = (currentIndex + 1) % themes.length;

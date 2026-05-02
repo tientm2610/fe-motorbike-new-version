@@ -44,12 +44,12 @@
 - [✅] 2.1.4 CTA sections
 
 ### 2.2 Product Listing
-- [ ] 2.2.1 Motorcycle list page (`/motorcycles`)
-- [ ] 2.2.2 Filter sidebar (brand, category, price)
-- [ ] 2.2.3 Sort options
-- [ ] 2.2.4 Search with debounce
-- [ ] 2.2.5 Pagination
-- [ ] 2.2.6 Motorcycle card component
+- [✅] 2.2.1 Motorcycle list page (`/motorcycles`)
+- [✅] 2.2.2 Filter sidebar (brand, category, stock)
+- [✅] 2.2.3 Sort options
+- [✅] 2.2.4 Search with debounce
+- [✅] 2.2.5 Pagination
+- [✅] 2.2.6 Motorcycle card component
 
 ### 2.3 Product Detail
 - [ ] 2.3.1 Product detail page (`/motorcycles/[slug]`)
@@ -159,16 +159,17 @@
 
 ```
 Phase 1: Foundation    [ 15 / 15 ] 100% ✅
-Phase 2: Storefront    [ 4 / 25 ] 16%
+Phase 2: Storefront    [ 10 / 25 ] 40%
   - 2.1 Homepage       [ 4 / 4 ] 100%
+  - 2.2 Product List  [ 6 / 6 ] 100%
 Phase 3: Auth          [ 0 / 6 ] 0%
 Phase 4: Admin         [ 0 / 16 ] 0%
 Phase 5: Staff         [ 0 / 4 ] 0%
 Phase 6: Polish        [ 0 / 7 ] 0%
 ──────────────────────────────
-TOTAL:                 [ 19 / 70 ] 27%
+TOTAL:                 [ 25 / 70 ] 36%
 ```
 
 ---
 
-*Last updated: 2.1 Homepage Complete ✅*
+*Last updated: 2.2 Product Listing Complete ✅*

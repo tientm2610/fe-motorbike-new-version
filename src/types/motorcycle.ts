@@ -26,6 +26,7 @@ export interface MotorcycleListItem {
   name: string;
   slug: string;
   minPrice: number;
+  maxPrice?: number;
   thumbnailUrl: string;
   totalStock: number;
   brandName: string;
