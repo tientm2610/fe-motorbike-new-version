@@ -11,11 +11,13 @@ interface AuthState {
   isAuthenticated: boolean;
   isLoading: boolean;
   error: string | null;
+  cartItemCount: number;
   
   login: (email: string, password: string) => Promise<void>;
   register: (email: string, password: string, fullName: string, phone: string) => Promise<void>;
   logout: () => Promise<void>;
   setUser: (user: User | null) => void;
+  setCartItemCount: (count: number) => void;
   clearError: () => void;
 }
 
@@ -28,6 +30,7 @@ export const useAuthStore = create<AuthState>()(
       isAuthenticated: false,
       isLoading: false,
       error: null,
+      cartItemCount: 0,
 
       login: async (email: string, password: string) => {
         set({ isLoading: true, error: null });
@@ -44,22 +47,33 @@ export const useAuthStore = create<AuthState>()(
             createdAt: response.createdAt,
           };
 
+          // Extract tokens - handle both possible response structures
           const accessToken = response.accessToken || response.token || "";
           const refreshToken = response.refreshToken || "";
+          const cartItemCount = response.cartItemCount || 0;
 
-          localStorage.setItem(STORAGE_KEYS.AUTH_TOKEN, accessToken);
-          localStorage.setItem(STORAGE_KEYS.REFRESH_TOKEN, refreshToken);
+          // Save to localStorage first (synchronous)
+          if (typeof window !== "undefined") {
+            localStorage.setItem(STORAGE_KEYS.AUTH_TOKEN, accessToken);
+            localStorage.setItem(STORAGE_KEYS.REFRESH_TOKEN, refreshToken);
+          }
 
+          // Then update state
           set({
             user,
             accessToken,
             refreshToken,
             isAuthenticated: true,
             isLoading: false,
+            error: null,
+            cartItemCount,
           });
+
+          // Force a re-render by triggering a small delay to ensure state is committed
+          await new Promise(resolve => setTimeout(resolve, 100));
         } catch (error) {
           set({
-            error: error instanceof Error ? error.message : "Login failed",
+            error: error instanceof Error ? error.message : "Đăng nhập thất bại",
             isLoading: false,
           });
           throw error;
@@ -83,9 +97,12 @@ export const useAuthStore = create<AuthState>()(
 
           const accessToken = response.accessToken || response.token || "";
           const refreshToken = response.refreshToken || "";
+          const cartItemCount = response.cartItemCount || 0;
 
-          localStorage.setItem(STORAGE_KEYS.AUTH_TOKEN, accessToken);
-          localStorage.setItem(STORAGE_KEYS.REFRESH_TOKEN, refreshToken);
+          if (typeof window !== "undefined") {
+            localStorage.setItem(STORAGE_KEYS.AUTH_TOKEN, accessToken);
+            localStorage.setItem(STORAGE_KEYS.REFRESH_TOKEN, refreshToken);
+          }
 
           set({
             user,
@@ -93,10 +110,14 @@ export const useAuthStore = create<AuthState>()(
             refreshToken,
             isAuthenticated: true,
             isLoading: false,
+            error: null,
+            cartItemCount,
           });
+
+          await new Promise(resolve => setTimeout(resolve, 100));
         } catch (error) {
           set({
-            error: error instanceof Error ? error.message : "Registration failed",
+            error: error instanceof Error ? error.message : "Đăng ký thất bại",
             isLoading: false,
           });
           throw error;
@@ -118,12 +139,17 @@ export const useAuthStore = create<AuthState>()(
             refreshToken: null,
             isAuthenticated: false,
             isLoading: false,
+            cartItemCount: 0,
           });
         }
       },
 
       setUser: (user: User | null) => {
         set({ user, isAuthenticated: !!user });
+      },
+
+      setCartItemCount: (count: number) => {
+        set({ cartItemCount: count });
       },
 
       clearError: () => {
@@ -137,6 +163,7 @@ export const useAuthStore = create<AuthState>()(
         accessToken: state.accessToken,
         refreshToken: state.refreshToken,
         isAuthenticated: state.isAuthenticated,
+        cartItemCount: state.cartItemCount,
       }),
     }
   )

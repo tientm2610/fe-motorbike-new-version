@@ -52,7 +52,8 @@ export default function CartPage() {
     );
   }
 
-  if (!cart || cart.items.length === 0) {
+  // Handle when cart is null or undefined
+  if (!cart || !cart.items || cart.items.length === 0) {
     return (
       <div className="container mx-auto px-4 py-16">
         <div className="text-center">
@@ -65,10 +66,10 @@ export default function CartPage() {
             Giỏ hàng trống
           </h1>
           <p className="text-neutral-500 dark:text-neutral-400 mb-8">
-            Looks like you haven't added any items to your cart yet.
+            Bạn chưa có sản phẩm nào trong giỏ hàng.
           </p>
           <ButtonLink href="/motorcycles" size="lg">
-            Browse Motorcycles
+            Mua sắm ngay
           </ButtonLink>
         </div>
       </div>
@@ -91,7 +92,7 @@ export default function CartPage() {
       </nav>
 
       <h1 className="text-3xl font-bold text-neutral-900 dark:text-white mb-8">
-        Shopping Cart ({cart.totalQuantity} items)
+        Giỏ hàng ({cart.totalQuantity || 0} sản phẩm)
       </h1>
 
       <div className="grid lg:grid-cols-3 gap-8">

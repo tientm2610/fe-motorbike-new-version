@@ -23,6 +23,7 @@ export interface AuthResponse {
   refreshToken?: string;
   expiresIn?: number;
   createdAt: string;
+  cartItemCount?: number;
 }
 
 export interface LoginRequest {

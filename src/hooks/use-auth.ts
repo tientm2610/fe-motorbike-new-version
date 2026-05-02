@@ -10,9 +10,11 @@ export function useAuth() {
     isAuthenticated,
     isLoading,
     error,
+    cartItemCount,
     login,
     register,
     logout,
+    setCartItemCount,
     clearError,
   } = useAuthStore();
 
@@ -30,12 +32,14 @@ export function useAuth() {
     isAuthenticated,
     isLoading,
     error,
+    cartItemCount,
     isAdmin,
     isStaff,
     isCustomer,
     login,
     register,
     logout,
+    setCartItemCount,
     clearError,
     hasPermission,
   };

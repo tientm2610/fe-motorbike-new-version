@@ -1,6 +1,18 @@
 import { create } from "zustand";
 import { cartService } from "@/services/cart.service";
 import type { Cart, CartItem } from "@/types";
+import { useAuthStore } from "./auth.store";
+
+const getCartItemCount = (cart: Cart | null | undefined): number => {
+  if (!cart) return 0;
+  // Handle both totalQuantity and calculate from items
+  return cart.totalQuantity ?? cart.items?.length ?? 0;
+};
+
+const updateCartItemCount = (cart: Cart | null | undefined) => {
+  const count = getCartItemCount(cart);
+  useAuthStore.getState().setCartItemCount(count);
+};
 
 interface CartState {
   cart: Cart | null;
@@ -24,13 +36,15 @@ export const useCartStore = create<CartState>((set, get) => ({
     set({ isLoading: true, error: null });
     try {
       const cart = await cartService.getCart();
-      set({ cart, isLoading: false });
+      set({ cart: cart || { items: [], totalQuantity: 0, subtotal: 0, estimatedTotal: 0 }, isLoading: false });
+      updateCartItemCount(cart);
     } catch (error) {
       set({
         error: error instanceof Error ? error.message : "Failed to fetch cart",
         isLoading: false,
         cart: { items: [], totalQuantity: 0, subtotal: 0, estimatedTotal: 0 },
       });
+      updateCartItemCount(null);
     }
   },
 
@@ -38,7 +52,9 @@ export const useCartStore = create<CartState>((set, get) => ({
     set({ isLoading: true, error: null });
     try {
       const cart = await cartService.addItem({ variantId, quantity });
-      set({ cart, isLoading: false });
+      const safeCart = cart || { items: [], totalQuantity: 0, subtotal: 0, estimatedTotal: 0 };
+      set({ cart: safeCart, isLoading: false });
+      updateCartItemCount(safeCart);
     } catch (error) {
       set({
         error: error instanceof Error ? error.message : "Failed to add item",
@@ -52,7 +68,9 @@ export const useCartStore = create<CartState>((set, get) => ({
     set({ isLoading: true, error: null });
     try {
       const cart = await cartService.updateItem(itemId, { quantity });
-      set({ cart, isLoading: false });
+      const safeCart = cart || { items: [], totalQuantity: 0, subtotal: 0, estimatedTotal: 0 };
+      set({ cart: safeCart, isLoading: false });
+      updateCartItemCount(safeCart);
     } catch (error) {
       set({
         error: error instanceof Error ? error.message : "Failed to update item",
@@ -66,7 +84,9 @@ export const useCartStore = create<CartState>((set, get) => ({
     set({ isLoading: true, error: null });
     try {
       const cart = await cartService.removeItem(itemId);
-      set({ cart, isLoading: false });
+      const safeCart = cart || { items: [], totalQuantity: 0, subtotal: 0, estimatedTotal: 0 };
+      set({ cart: safeCart, isLoading: false });
+      updateCartItemCount(safeCart);
     } catch (error) {
       set({
         error: error instanceof Error ? error.message : "Failed to remove item",
@@ -80,17 +100,12 @@ export const useCartStore = create<CartState>((set, get) => ({
     set({ isLoading: true, error: null });
     try {
       await cartService.clearCart();
-      set({ 
-        cart: { items: [], totalQuantity: 0, subtotal: 0, estimatedTotal: 0 }, 
-        isLoading: false 
-      });
     } catch (error) {
-      set({
-        error: error instanceof Error ? error.message : "Failed to clear cart",
-        isLoading: false,
-      });
-      throw error;
+      // Continue even if clear fails
     }
+    const emptyCart = { items: [], totalQuantity: 0, subtotal: 0, estimatedTotal: 0 };
+    set({ cart: emptyCart, isLoading: false });
+    updateCartItemCount(emptyCart);
   },
 
   clearError: () => {

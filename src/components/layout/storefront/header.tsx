@@ -2,9 +2,12 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useCartStore } from "@/stores/cart.store";
 import { usePathname } from "next/navigation";
 import { Button, IconButton, Input, Avatar, ThemeToggle } from "@/components/ui";
 import { UserMenu } from "@/components/features/auth/user-menu";
+import { useAuth } from "@/hooks/use-auth";
 import { cn } from "@/lib";
 
 const Logo = () => (
@@ -56,9 +59,21 @@ interface HeaderProps {
   className?: string;
 }
 
+import { useEffect } from "react";
+
 export function Header({ className }: HeaderProps) {
   const pathname = usePathname();
+  const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { cartItemCount, isAuthenticated } = useAuth();
+  const { fetchCart, cart } = useCartStore();
+
+  // Fetch cart when user is authenticated to get initial count
+  useEffect(() => {
+    if (isAuthenticated && !cart) {
+      fetchCart();
+    }
+  }, [isAuthenticated, cart, fetchCart]);
 
   return (
     <header className={cn("sticky top-0 z-50 w-full border-b border-neutral-200 bg-white/80 backdrop-blur-md dark:border-neutral-800 dark:bg-neutral-950/80", className)}>
@@ -104,12 +119,14 @@ export function Header({ className }: HeaderProps) {
           <ThemeToggle />
 
           {/* Cart */}
-          <IconButton variant="ghost" className="relative">
+          <Link href="/cart" className="relative p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors">
             <CartIcon />
-            <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary-600 text-xs font-medium text-white">
-              0
-            </span>
-          </IconButton>
+            {cartItemCount > 0 && (
+              <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary-600 text-xs font-medium text-white">
+                {cartItemCount > 99 ? "99+" : cartItemCount}
+              </span>
+            )}
+          </Link>
 
           {/* User Menu */}
           <div className="hidden md:block">
