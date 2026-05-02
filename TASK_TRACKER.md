@@ -29,9 +29,9 @@
 - [✅] 1.3.3 UI store (toasts, modals)
 
 ### 1.4 Error Handling
-- [ ] 1.4.1 Global error boundary
-- [ ] 1.4.2 API error handlers
-- [ ] 1.4.3 Loading states component
+- [✅] 1.4.1 Global error boundary
+- [✅] 1.4.2 API error handlers (in api-client.ts + toast)
+- [✅] 1.4.3 Loading states component (Spinners, PageLoader)
 
 ---
 
@@ -158,14 +158,14 @@
 ## 📊 Progress Summary
 
 ```
-Phase 1: Foundation    [ 12 / 12 ] 100% ✅
+Phase 1: Foundation    [ 15 / 15 ] 100% ✅
 Phase 2: Storefront    [ 0 / 25 ] 0%
 Phase 3: Auth          [ 0 / 6 ] 0%
 Phase 4: Admin         [ 0 / 16 ] 0%
 Phase 5: Staff         [ 0 / 4 ] 0%
 Phase 6: Polish        [ 0 / 7 ] 0%
 ──────────────────────────────
-TOTAL:                 [ 12 / 70 ] 17%
+TOTAL:                 [ 15 / 70 ] 21%
 ```
 
 ---
