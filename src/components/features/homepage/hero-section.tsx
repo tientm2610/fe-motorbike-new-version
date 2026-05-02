@@ -1,8 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui";
-import Link from "next/link";
+import { ButtonLink } from "@/components/ui";
 
 const MotorcycleIcon = () => (
   <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -84,18 +83,14 @@ export function HeroSection() {
               transition={{ delay: 0.5 }}
               className="mt-10 flex flex-wrap gap-4"
             >
-              <Link href="/motorcycles">
-                <Button size="lg" className="group">
+              <ButtonLink href="/motorcycles" size="lg" className="group">
                   <MotorcycleIcon />
                   Explore Motorcycles
                   <ArrowRightIcon />
-                </Button>
-              </Link>
-              <Link href="/about">
-                <Button variant="outline" size="lg">
+                </ButtonLink>
+                <ButtonLink href="/about" variant="outline" size="lg">
                   Learn More
-                </Button>
-              </Link>
+                </ButtonLink>
             </motion.div>
 
             {/* Stats */}

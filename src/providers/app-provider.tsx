@@ -14,7 +14,7 @@ export function AppProvider({ children }: AppProviderProps) {
   return (
     <ErrorBoundary>
       <ThemeProvider
-        attribute="data-theme"
+        attribute="class"
         defaultTheme="system"
         enableSystem
         disableTransitionOnChange

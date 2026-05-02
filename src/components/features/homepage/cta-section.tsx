@@ -1,8 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui";
-import Link from "next/link";
+import { ButtonLink } from "@/components/ui";
 import { GlassCard } from "@/components/ui";
 
 const features = [
@@ -81,12 +80,8 @@ export function CTASection() {
                 transition={{ delay: 0.2 }}
                 className="mt-8 flex flex-wrap gap-4"
               >
-                <Link href="/motorcycles">
-                  <Button size="lg">Browse Motorcycles</Button>
-                </Link>
-                <Link href="/contact">
-                  <Button variant="outline" size="lg">Contact Us</Button>
-                </Link>
+                <ButtonLink href="/motorcycles" size="lg">Browse Motorcycles</ButtonLink>
+                <ButtonLink href="/contact" variant="outline" size="lg">Contact Us</ButtonLink>
               </motion.div>
             </div>
 

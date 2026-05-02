@@ -140,7 +140,7 @@ function MotorcyclesContent() {
               Filters
             </Button>
 
-            <Select
+            {/* <Select
               options={sortOptions}
               value={sort}
               onChange={(e) => {
@@ -148,7 +148,7 @@ function MotorcyclesContent() {
                 setPage(0);
               }}
               className="w-48"
-            />
+            /> */}
 
             <div className="hidden sm:flex border border-neutral-200 dark:border-neutral-800 rounded-lg overflow-hidden">
               <button
