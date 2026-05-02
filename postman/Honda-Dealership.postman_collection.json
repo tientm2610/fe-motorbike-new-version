@@ -1,0 +1,853 @@
+{
+  "info": {
+    "name": "Honda Dealership API",
+    "description": "Complete API documentation for Honda Dealership Backend",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "accessToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "refreshToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "motorcycleId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "variantId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "imageId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "orderId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "cartItemId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "brandId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "categoryId",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{accessToken}}"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "javascript",
+        "exec": [
+          "if (pm.request.method === 'POST' || pm.request.method === 'PUT' || pm.request.method === 'DELETE') {",
+          "    if (!pm.environment.get('accessToken')) {",
+          "        console.log('Warning: No access token set!');",
+          "    }",
+          "}"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "javascript",
+        "exec": [
+          "var jsonData = pm.response.json();",
+          "pm.test('Response has code 1000', function() {",
+          "    pm.expect(jsonData.code).to.eql(1000);",
+          "});",
+          "",
+          "if (jsonData.result) {",
+          "    if (jsonData.result.id) {",
+          "        if (jsonData.result.motorcycleId) pm.environment.set('motorcycleId', jsonData.result.motorcycleId);",
+          "        if (jsonData.result.motorcycle && jsonData.result.motorcycle.id) pm.environment.set('motorcycleId', jsonData.result.motorcycle.id);",
+          "    }",
+          "    if (jsonData.result.accessToken) pm.environment.set('accessToken', jsonData.result.accessToken);",
+          "    if (jsonData.result.refreshToken) pm.environment.set('refreshToken', jsonData.result.refreshToken);",
+          "    if (jsonData.result.id) {",
+          "        if (pm.request.url.path.includes('motorcycles')) pm.environment.set('motorcycleId', jsonData.result.id);",
+          "        if (pm.request.url.path.includes('variants') && !pm.request.url.path.includes('images')) pm.environment.set('variantId', jsonData.result.id);",
+          "        if (pm.request.url.path.includes('variant-images') || pm.request.url.path.includes('images')) pm.environment.set('imageId', jsonData.result.id);",
+          "        if (pm.request.url.path.includes('orders') && !pm.request.url.path.includes('my-orders')) pm.environment.set('orderId', jsonData.result.id);",
+          "    }",
+          "    if (jsonData.result.items) {",
+          "        jsonData.result.items.forEach(function(item) {",
+          "            if (item.motorcycleId) pm.environment.set('motorcycleId', item.motorcycleId);",
+          "            if (item.variantId) pm.environment.set('variantId', item.variantId);",
+          "            if (item.id && pm.request.url.path.includes('cart')) pm.environment.set('cartItemId', item.id);",
+          "        });",
+          "    }",
+          "    if (jsonData.result.content) {",
+          "        jsonData.result.content.forEach(function(item) {",
+          "            if (item.id) {",
+          "                if (item.motorcycleId) pm.environment.set('motorcycleId', item.motorcycleId);",
+          "                if (item.variantId) pm.environment.set('variantId', item.variantId);",
+          "            }",
+          "        });",
+          "    }",
+          "}"
+        ]
+      }
+    }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/auth/register",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"test@example.com\",\n    \"password\": \"password123\",\n    \"fullName\": \"Test User\",\n    \"phone\": \"0912345678\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/auth/login",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "User-Agent",
+                "value": "Postman"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"test@example.com\",\n    \"password\": \"password123\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Refresh Token",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/auth/refresh",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "User-Agent",
+                "value": "Postman"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"refreshToken\": \"{{refreshToken}}\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/auth/logout",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"refreshToken\": \"{{refreshToken}}\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Profile",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/auth/me",
+            "header": []
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Motorcycles",
+      "item": [
+        {
+          "name": "Get All Motorcycles",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/motorcycles?page=0&size=20&sort=createdAt,DESC",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "motorcycles"],
+              "query": [
+                {"key": "page", "value": "0"},
+                {"key": "size", "value": "20"},
+                {"key": "sort", "value": "createdAt,DESC"},
+                {"key": "brandId", "value": "", "disabled": true},
+                {"key": "categoryId", "value": "", "disabled": true},
+                {"key": "status", "value": "", "disabled": true},
+                {"key": "keyword", "value": "", "disabled": true}
+              ]
+            },
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Get Motorcycle By ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/motorcycles/{{motorcycleId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "motorcycles", "{{motorcycleId}}"]
+            },
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Get Motorcycle By Slug",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/motorcycles/slug/honda-vision-2026",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "motorcycles", "slug", "honda-vision-2026"]
+            },
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Search Motorcycles",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/motorcycles/search?keyword=Honda",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "motorcycles", "search"],
+              "query": [
+                {"key": "keyword", "value": "Honda"}
+              ]
+            },
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Get Variants By Motorcycle",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/motorcycles/{{motorcycleId}}/variants",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "motorcycles", "{{motorcycleId}}", "variants"]
+            },
+            "header": []
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Brands",
+      "item": [
+        {
+          "name": "Get All Brands",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/brands",
+            "header": []
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Categories",
+      "item": [
+        {
+          "name": "Get All Categories",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/categories",
+            "header": []
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Variants",
+      "item": [
+        {
+          "name": "Get All Variants",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/variants?page=0&size=20",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "variants"],
+              "query": [
+                {"key": "page", "value": "0"},
+                {"key": "size", "value": "20"}
+              ]
+            },
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Get Variant By ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/variants/{{variantId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "variants", "{{variantId}}"]
+            },
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Get Images By Variant",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/variants/{{variantId}}/images",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "variants", "{{variantId}}", "images"]
+            },
+            "header": []
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Cart",
+      "item": [
+        {
+          "name": "Add Item to Cart",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/cart/items",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"variantId\": 1,\n    \"quantity\": 1\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Cart",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/cart",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Update Cart Item Quantity",
+          "request": {
+            "method": "PUT",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/cart/items/{{cartItemId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "cart", "items", "{{cartItemId}}"]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"quantity\": 2\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Remove Cart Item",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/cart/items/{{cartItemId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "cart", "items", "{{cartItemId}}"]
+            },
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Clear Cart",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/cart/clear",
+            "header": []
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Orders",
+      "item": [
+        {
+          "name": "Checkout",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/orders/checkout",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"shippingName\": \"John Doe\",\n    \"shippingPhone\": \"0912345678\",\n    \"shippingAddress\": \"123 Main St, District 1, Ho Chi Minh City\",\n    \"paymentMethod\": \"COD\",\n    \"note\": \"Please deliver before 5 PM\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get My Orders",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/orders/my-orders?page=0&size=20",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "orders", "my-orders"],
+              "query": [
+                {"key": "page", "value": "0"},
+                {"key": "size", "value": "20"}
+              ]
+            },
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Get My Order Detail",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/orders/{{orderId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "orders", "{{orderId}}"]
+            },
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Cancel Order",
+          "request": {
+            "method": "PUT",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/orders/{{orderId}}/cancel",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "orders", "{{orderId}}", "cancel"]
+            },
+            "header": []
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin - Products",
+      "item": [
+        {
+          "name": "Create Motorcycle",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/admin/motorcycles",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Honda Vision 2026\",\n    \"code\": \"HVN-2026\",\n    \"slug\": \"honda-vision-2026\",\n    \"description\": \"Honda Vision 2026 - Reliable scooter for daily commute\",\n    \"specsJson\": \"{}\",\n    \"brandId\": 1,\n    \"categoryId\": 1,\n    \"status\": \"ACTIVE\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Motorcycle",
+          "request": {
+            "method": "PUT",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/admin/motorcycles/{{motorcycleId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "admin", "motorcycles", "{{motorcycleId}}"]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Honda Vision 2026 Updated\",\n    \"description\": \"Updated description\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Motorcycle",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/admin/motorcycles/{{motorcycleId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "admin", "motorcycles", "{{motorcycleId}}"]
+            },
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Create Brand",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/admin/brands",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Honda\",\n    \"logoUrl\": \"https://example.com/logo.png\",\n    \"description\": \"Honda Motor Company\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Category",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/admin/categories",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Scooter\",\n    \"slug\": \"scooter\",\n    \"description\": \"Scooter category\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Variant",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/admin/variants",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"motorcycleId\": 1,\n    \"sku\": \"HVN-2026-BLK\",\n    \"variantName\": \"Honda Vision Black\",\n    \"colorName\": \"Black\",\n    \"colorCode\": \"#000000\",\n    \"price\": 35000000,\n    \"stockQuantity\": 10,\n    \"status\": \"AVAILABLE\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Variant",
+          "request": {
+            "method": "PUT",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/admin/variants/{{variantId}}?price=40000000&stockQuantity=15",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "admin", "variants", "{{variantId}}"],
+              "query": [
+                {"key": "price", "value": "40000000"},
+                {"key": "stockQuantity", "value": "15"}
+              ]
+            },
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Variant",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/admin/variants/{{variantId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "admin", "variants", "{{variantId}}"]
+            },
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Add Variant Image (URL)",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/admin/variant-images",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"variantId\": 1,\n    \"imageUrl\": \"https://res.cloudinary.com/demo/image/upload/sample.jpg\",\n    \"publicId\": \"sample_image\",\n    \"sortOrder\": 1,\n    \"isThumbnail\": false\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Variant Image",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/admin/variant-images/{{imageId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "admin", "variant-images", "{{imageId}}"]
+            },
+            "header": []
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin - Images (Upload)",
+      "item": [
+        {
+          "name": "Upload Image to Variant",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/variants/{{variantId}}/images",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "variants", "{{variantId}}", "images"]
+            },
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Set Thumbnail",
+          "request": {
+            "method": "PUT",
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/images/{{imageId}}/thumbnail",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "images", "{{imageId}}", "thumbnail"]
+            },
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Image",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/images/{{imageId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "images", "{{imageId}}"]
+            },
+            "header": []
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin - Orders",
+      "item": [
+        {
+          "name": "Get All Orders",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/admin/orders?page=0&size=20",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "admin", "orders"],
+              "query": [
+                {"key": "page", "value": "0"},
+                {"key": "size", "value": "20"}
+              ]
+            },
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Get Order Detail",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/admin/orders/{{orderId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "admin", "orders", "{{orderId}}"]
+            },
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Update Order Status",
+          "request": {
+            "method": "PUT",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/admin/orders/{{orderId}}/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "admin", "orders", "{{orderId}}", "status"]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"status\": \"CONFIRMED\"\n}"
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin - Dashboard",
+      "item": [
+        {
+          "name": "Get Summary",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/admin/dashboard/summary",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Get Revenue",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/admin/dashboard/revenue?range=7days",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "admin", "dashboard", "revenue"],
+              "query": [
+                {"key": "range", "value": "7days"}
+              ]
+            },
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Get Top Products",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/admin/dashboard/top-products",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Get Order Status",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/admin/dashboard/order-status",
+            "header": []
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
