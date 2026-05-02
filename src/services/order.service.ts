@@ -3,7 +3,7 @@ import type { Order, CheckoutRequest, OrderFilters, PaginatedResponse, Dashboard
 
 class OrderService {
   async checkout(request: CheckoutRequest): Promise<Order> {
-    const response = await apiClient.post<Order>("/api/v1/orders", request);
+    const response = await apiClient.post<Order>("/api/v1/orders/checkout", request);
     if (response.data.code !== 1000) {
       throw new Error(response.data.message || "Checkout failed");
     }
@@ -18,7 +18,7 @@ class OrderService {
     if (filters?.status) params.set("status", filters.status);
 
     const response = await apiClient.get<PaginatedResponse<Order>>(
-      `/api/v1/orders?${params.toString()}`
+      `/api/v1/orders/my-orders?${params.toString()}`
     );
     if (response.data.code !== 1000) {
       throw new Error(response.data.message || "Failed to fetch orders");
@@ -35,7 +35,7 @@ class OrderService {
   }
 
   async getOrderByCode(orderCode: string): Promise<Order> {
-    const response = await apiClient.get<Order>(`/api/v1/orders/code/${orderCode}`);
+    const response = await apiClient.get<Order>(`/api/v1/orders/${orderCode}`);
     if (response.data.code !== 1000) {
       throw new Error(response.data.message || "Failed to fetch order");
     }
@@ -51,7 +51,7 @@ class OrderService {
   }
 
   async getDashboardSummary(): Promise<DashboardSummary> {
-    const response = await apiClient.get<DashboardSummary>("/api/v1/orders/dashboard/summary");
+    const response = await apiClient.get<DashboardSummary>("/api/v1/admin/dashboard/summary");
     if (response.data.code !== 1000) {
       throw new Error(response.data.message || "Failed to fetch dashboard summary");
     }
@@ -59,7 +59,7 @@ class OrderService {
   }
 
   async getRevenueData(days: number = 30): Promise<RevenueData[]> {
-    const response = await apiClient.get<RevenueData[]>(`/api/v1/orders/dashboard/revenue?days=${days}`);
+    const response = await apiClient.get<RevenueData[]>(`/api/v1/admin/dashboard/revenue?range=${days}days`);
     if (response.data.code !== 1000) {
       throw new Error(response.data.message || "Failed to fetch revenue data");
     }
@@ -67,7 +67,7 @@ class OrderService {
   }
 
   async getTopProducts(limit: number = 10): Promise<TopProduct[]> {
-    const response = await apiClient.get<TopProduct[]>(`/api/v1/orders/dashboard/top-products?limit=${limit}`);
+    const response = await apiClient.get<TopProduct[]>(`/api/v1/admin/dashboard/top-products?limit=${limit}`);
     if (response.data.code !== 1000) {
       throw new Error(response.data.message || "Failed to fetch top products");
     }
@@ -75,11 +75,36 @@ class OrderService {
   }
 
   async getOrderStatusCounts(): Promise<OrderStatusCount[]> {
-    const response = await apiClient.get<OrderStatusCount[]>("/api/v1/orders/dashboard/status-counts");
+    const response = await apiClient.get<OrderStatusCount[]>("/api/v1/admin/dashboard/order-status");
     if (response.data.code !== 1000) {
       throw new Error(response.data.message || "Failed to fetch order status counts");
     }
     return response.data.result as OrderStatusCount[];
+  }
+
+  // Admin orders
+  async getAllOrders(filters?: OrderFilters): Promise<PaginatedResponse<Order>> {
+    const params = new URLSearchParams();
+    if (filters?.page !== undefined) params.set("page", String(filters.page));
+    if (filters?.size !== undefined) params.set("size", String(filters.size));
+    if (filters?.sort) params.set("sort", filters.sort);
+    if (filters?.status) params.set("status", filters.status);
+
+    const response = await apiClient.get<PaginatedResponse<Order>>(
+      `/api/v1/admin/orders?${params.toString()}`
+    );
+    if (response.data.code !== 1000) {
+      throw new Error(response.data.message || "Failed to fetch orders");
+    }
+    return response.data.result as PaginatedResponse<Order>;
+  }
+
+  async updateOrderStatus(orderId: number, status: string): Promise<Order> {
+    const response = await apiClient.put<Order>(`/api/v1/admin/orders/${orderId}/status`, { status });
+    if (response.data.code !== 1000) {
+      throw new Error(response.data.message || "Failed to update order status");
+    }
+    return response.data.result as Order;
   }
 }
 
