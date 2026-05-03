@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { ButtonLink } from "@/components/ui";
+import type { HomepageHero } from "@/types";
 
 const MotorcycleIcon = () => (
   <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -15,13 +16,11 @@ const ArrowRightIcon = () => (
   </svg>
 );
 
-const motoImages = [
-  "https://images.unsplash.com/photo-1558616304-5bb8437f6b22?w=800&h=600&fit=crop",
-  "https://images.unsplash.com/photo-1609630875171-1d6e0e104c3c?w=800&h=600&fit=crop",
-  "https://images.unsplash.com/photo-1591637333184-19aa84b3e01f?w=800&h=600&fit=crop",
-];
+interface HeroSectionProps {
+  hero: HomepageHero;
+}
 
-export function HeroSection() {
+export function HeroSection({ hero }: HeroSectionProps) {
   return (
     <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-gradient-to-br from-neutral-50 via-white to-neutral-100 dark:from-neutral-950 dark:via-neutral-900 dark:to-neutral-850">
       {/* Background Pattern */}
@@ -61,9 +60,15 @@ export function HeroSection() {
               transition={{ delay: 0.3 }}
               className="text-5xl sm:text-6xl lg:text-7xl font-bold text-neutral-900 dark:text-white leading-tight"
             >
-              Ride Your
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-primary-400">
-                Chiếc xe mơ ước
+              {hero.title.split(' ').slice(0, 2).join(' ')}
+              <span 
+                className="block text-transparent bg-clip-text"
+                style={{ 
+                  backgroundImage: `linear-gradient(to right, var(--color-primary), var(--color-primary))`,
+                  filter: 'brightness(1.2)'
+                }}
+              >
+                {hero.title.split(' ').slice(2).join(' ') || hero.title}
               </span>
             </motion.h1>
 
@@ -73,8 +78,7 @@ export function HeroSection() {
               transition={{ delay: 0.4 }}
               className="mt-6 text-xl text-neutral-600 dark:text-neutral-400 max-w-lg"
             >
-              Discover premium Honda motorcycles with expert guidance, 
-              competitive pricing, and unparalleled service.
+              {hero.subtitle}
             </motion.p>
 
             <motion.div
@@ -83,14 +87,18 @@ export function HeroSection() {
               transition={{ delay: 0.5 }}
               className="mt-10 flex flex-wrap gap-4"
             >
-              <ButtonLink href="/motorcycles" size="lg" className="group">
+              {hero.ctaPrimaryText && (
+                <ButtonLink href={hero.ctaPrimaryLink || "/motorcycles"} size="lg" className="group">
                   <MotorcycleIcon />
-                  Khám phá xe máy
+                  {hero.ctaPrimaryText}
                   <ArrowRightIcon />
                 </ButtonLink>
-                <ButtonLink href="/about" variant="outline" size="lg">
-                  Tìm hiểu thêm
+              )}
+              {hero.ctaSecondaryText && (
+                <ButtonLink href={hero.ctaSecondaryLink || "/about"} variant="outline" size="lg">
+                  {hero.ctaSecondaryText}
                 </ButtonLink>
+              )}
             </motion.div>
 
             {/* Stats */}
@@ -125,32 +133,18 @@ export function HeroSection() {
             className="relative hidden lg:block"
           >
             <div className="relative aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl">
-              <img
-                src={motoImages[0]}
-                alt="Honda Motorcycle"
-                className="object-cover w-full h-full"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-              
-              {/* Floating badge */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.8 }}
-                className="absolute bottom-6 left-6 right-6"
-              >
-                <div className="bg-white/90 dark:bg-neutral-900/90 backdrop-blur-sm rounded-xl p-4">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm text-neutral-500 dark:text-neutral-400">Giá từ</p>
-                      <p className="text-2xl font-bold text-neutral-900 dark:text-white">₫35,000,000</p>
-                    </div>
-                    <span className="px-3 py-1 bg-success/20 text-success text-sm font-medium rounded-full">
-                      Còn hàng
-                    </span>
-                  </div>
+              {hero.heroImage ? (
+                <img
+                  src={hero.heroImage}
+                  alt={hero.title}
+                  className="object-cover w-full h-full"
+                />
+              ) : (
+                <div className="w-full h-full bg-neutral-200 dark:bg-neutral-800 flex items-center justify-center">
+                  <span className="text-neutral-400">No image</span>
                 </div>
-              </motion.div>
+              )}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
             </div>
 
             {/* Decorative elements */}

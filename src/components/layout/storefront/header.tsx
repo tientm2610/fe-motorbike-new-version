@@ -4,24 +4,37 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCartStore } from "@/stores/cart.store";
+import { useSiteConfigStore } from "@/stores/site-config.store";
 import { usePathname } from "next/navigation";
 import { Button, IconButton, Input, Avatar, ThemeToggle } from "@/components/ui";
 import { UserMenu } from "@/components/features/auth/user-menu";
 import { useAuth } from "@/hooks/use-auth";
 import { cn } from "@/lib";
 
-const Logo = () => (
-  <Link href="/" className="flex items-center gap-2">
-    <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary-600">
-      <svg className="h-5 w-5 text-white" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" />
-      </svg>
-    </div>
-    <span className="text-xl font-bold text-neutral-900 dark:text-white">
-      Honda<span className="text-primary-600">Dealership</span>
-    </span>
-  </Link>
-);
+const Logo = () => {
+  const { config } = useSiteConfigStore();
+  
+  return (
+    <Link href="/" className="flex items-center gap-2">
+      {config?.logo ? (
+        <img 
+          src={config.logo} 
+          alt={config.shopName || "Logo"} 
+          className="h-9 w-auto rounded-lg object-contain"
+        />
+      ) : (
+        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-site-primary">
+          <svg className="h-5 w-5 text-white" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" />
+          </svg>
+        </div>
+      )}
+      <span className="text-xl font-bold text-neutral-900 text-site-primary">
+        {config?.shopName || "Honda"}
+      </span>
+    </Link>
+  );
+};
 
 const IconSearch = () => (
   <svg className="h-5 w-5 text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

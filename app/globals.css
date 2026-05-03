@@ -1,22 +1,32 @@
 @import "tailwindcss";
 
+/* Default colors - will be overridden by SiteConfig at runtime */
+:root {
+  --color-primary: #e31837;
+  --color-primary-rgb: 227, 24, 55;
+  --color-secondary: #ffffff;
+  --site-primary-color: #e31837;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 
-  /* Colors - Brand */
-  --color-primary-50: #f0f9ff;
-  --color-primary-100: #e0f2fe;
-  --color-primary-200: #bae6fd;
-  --color-primary-300: #7dd3fc;
-  --color-primary-400: #38bdf8;
-  --color-primary-500: #0ea5e9;
-  --color-primary-600: #0284c7;
-  --color-primary-700: #0369a1;
-  --color-primary-800: #075985;
-  --color-primary-900: #0c4a6e;
+  /* Dynamic Primary - References CSS variable */
+  --color-primary-600: var(--color-primary);
+  --color-primary-500: var(--color-primary);
+  --color-primary-700: var(--color-primary);
+  
+  /* Other primary shades - keep for accessibility */
+  --color-primary-50: #fef2f2;
+  --color-primary-100: #fee2e2;
+  --color-primary-200: #fecaca;
+  --color-primary-300: #fca5a5;
+  --color-primary-400: #f87171;
+  --color-primary-800: #991b1b;
+  --color-primary-900: #7f1d1d;
 
   /* Colors - Accent (Orange/Honda inspired) */
   --color-accent-50: #fff7ed;
@@ -138,4 +148,39 @@ body {
   font-family: var(--font-sans), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Dynamic Site Colors - Use these classes for colors from SiteConfig */
+.text-site-primary {
+  color: var(--color-primary) !important;
+}
+
+.bg-site-primary {
+  background-color: var(--color-primary) !important;
+}
+
+.border-site-primary {
+  border-color: var(--color-primary) !important;
+}
+
+.ring-site-primary {
+  --tw-ring-color: var(--color-primary) !important;
+}
+
+/* Hover states */
+.hover\:text-site-primary:hover {
+  color: var(--color-primary) !important;
+}
+
+.hover\:bg-site-primary:hover {
+  background-color: var(--color-primary) !important;
+}
+
+/* Group hover */
+.group-hover\:text-site-primary:is(:hover, .group:hover .group-hover\:text-site-primary) {
+  color: var(--color-primary) !important;
+}
+
+.group-hover\:bg-site-primary:is(:hover, .group:hover .group-hover\:bg-site-primary) {
+  background-color: var(--color-primary) !important;
 }

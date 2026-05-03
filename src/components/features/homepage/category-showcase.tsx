@@ -3,43 +3,13 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { Card } from "@/components/ui";
+import type { HomepageCategory } from "@/types";
 
-const categories = [
-  {
-    id: 1,
-    name: "Scooter",
-    slug: "scooter",
-    description: "City-friendly & comfortable",
-    image: "https://images.unsplash.com/photo-1558616304-5bb8437f6b22?w=400&h=300&fit=crop",
-    count: 12,
-  },
-  {
-    id: 2,
-    name: "Sport",
-    slug: "sport",
-    description: "Speed & performance",
-    image: "https://images.unsplash.com/photo-1609630875171-1d6e0e104c3c?w=400&h=300&fit=crop",
-    count: 8,
-  },
-  {
-    id: 3,
-    name: "Naked Bike",
-    slug: "naked-bike",
-    description: "Street & urban style",
-    image: "https://images.unsplash.com/photo-1591637333184-19aa84b3e01f?w=400&h=300&fit=crop",
-    count: 6,
-  },
-  {
-    id: 4,
-    name: "Adventure",
-    slug: "adventure",
-    description: "Explore the unknown",
-    image: "https://images.unsplash.com/photo-1558616304-5bb8437f6b22?w=400&h=300&fit=crop",
-    count: 4,
-  },
-];
+interface CategoryShowcaseProps {
+  categories: HomepageCategory[];
+}
 
-export function CategoryShowcase() {
+export function CategoryShowcase({ categories }: CategoryShowcaseProps) {
   return (
     <section className="py-20 bg-neutral-50 dark:bg-neutral-950">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -79,11 +49,11 @@ export function CategoryShowcase() {
                 >
                   {/* Background Image */}
                   <div className="absolute inset-0">
-                    <img
-                      src={category.image}
-                      alt={category.name}
-                      className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
-                    />
+                    <div className="w-full h-full bg-gradient-to-br from-neutral-700 to-neutral-900 flex items-center justify-center">
+                      <span className="text-4xl font-bold text-neutral-600">
+                        {category.name.charAt(0)}
+                      </span>
+                    </div>
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
                   </div>
 
@@ -96,7 +66,7 @@ export function CategoryShowcase() {
                       {category.description}
                     </p>
                     <p className="mt-3 text-sm font-medium text-primary-400">
-                      {category.count} models →
+                      {category.productCount} models →
                     </p>
                   </div>
 

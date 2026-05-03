@@ -1,5 +1,5 @@
 import apiClient from "./api-client";
-import type { Motorcycle, MotorcycleListItem, MotorcycleFilters, PaginatedResponse, Brand, Category, Variant, SiteConfig, UpdateSiteConfigRequest } from "@/types";
+import type { Motorcycle, MotorcycleListItem, MotorcycleFilters, PaginatedResponse, Brand, Category, Variant, SiteConfig, UpdateSiteConfigRequest, HomepageData } from "@/types";
 
 class AdminService {
   // Motorcycles - Admin endpoints
@@ -219,6 +219,14 @@ class AdminService {
     formData.append("file", file);
     const response = await apiClient.uploadFile<SiteConfig>("/api/v1/admin/site-config/banner", formData);
     return response;
+  }
+
+  async getHomepage(): Promise<HomepageData> {
+    const response = await apiClient.get<HomepageData>("/api/v1/home");
+    if (response.data.code !== 1000) {
+      throw new Error(response.data.message || "Failed to fetch homepage data");
+    }
+    return response.data.result as HomepageData;
   }
 }
 

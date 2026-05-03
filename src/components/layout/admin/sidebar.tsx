@@ -58,7 +58,7 @@ const sidebarLinks = [
   { href: "/admin", label: "Tổng quan", icon: DashboardIcon },
   { href: "/admin/orders", label: "Đơn hàng", icon: OrdersIcon },
   { href: "/admin/motorcycles", label: "Sản phẩm", icon: MotorcycleIcon },
-  { href: "/admin/customers", label: "Khách hàng", icon: UsersIcon },
+  // { href: "/admin/customers", label: "Khách hàng", icon: UsersIcon },
   { href: "/admin/settings", label: "Cài đặt", icon: SettingsIcon },
 ];
 

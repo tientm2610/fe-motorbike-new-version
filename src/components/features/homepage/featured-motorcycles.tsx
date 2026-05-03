@@ -4,45 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { Button, Card, Badge } from "@/components/ui";
 import { cn } from "@/lib";
-
-const featuredMotorcycles = [
-  {
-    id: 1,
-    name: "Honda Vision 2026",
-    slug: "honda-vision-2026",
-    price: 35000000,
-    image: "https://images.unsplash.com/photo-1558616304-5bb8437f6b22?w=600&h=400&fit=crop",
-    category: "Scooter",
-    inStock: true,
-  },
-  {
-    id: 2,
-    name: "Honda Winner X",
-    slug: "honda-winner-x",
-    price: 48000000,
-    image: "https://images.unsplash.com/photo-1609630875171-1d6e0e104c3c?w=600&h=400&fit=crop",
-    category: "Sport",
-    inStock: true,
-  },
-  {
-    id: 3,
-    name: "Honda SH Mode",
-    slug: "honda-sh-mode",
-    price: 42000000,
-    image: "https://images.unsplash.com/photo-1591637333184-19aa84b3e01f?w=600&h=400&fit=crop",
-    category: "Scooter",
-    inStock: true,
-  },
-  {
-    id: 4,
-    name: "Honda Air Blade",
-    slug: "honda-air-blade",
-    price: 45000000,
-    image: "https://images.unsplash.com/photo-1558616304-5bb8437f6b22?w=600&h=400&fit=crop",
-    category: "Scooter",
-    inStock: false,
-  },
-];
+import type { HomepageMotorcycle } from "@/types";
 
 const formatPrice = (price: number) => {
   return new Intl.NumberFormat("vi-VN", {
@@ -52,7 +14,11 @@ const formatPrice = (price: number) => {
   }).format(price);
 };
 
-export function FeaturedMotorcycles() {
+interface FeaturedMotorcyclesProps {
+  motorcycles: HomepageMotorcycle[];
+}
+
+export function FeaturedMotorcycles({ motorcycles }: FeaturedMotorcyclesProps) {
   return (
     <section className="py-20 bg-white dark:bg-neutral-900">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -77,7 +43,7 @@ Xe nổi bật
 
         {/* Products Grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {featuredMotorcycles.map((motorcycle, index) => (
+          {motorcycles.map((motorcycle, index) => (
             <motion.div
               key={motorcycle.id}
               initial={{ opacity: 0, y: 20 }}
@@ -90,7 +56,7 @@ Xe nổi bật
                   {/* Image */}
                   <div className="relative aspect-[4/3] overflow-hidden">
                     <img
-                      src={motorcycle.image}
+                      src={motorcycle.thumbnailUrl}
                       alt={motorcycle.name}
                       className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
                     />
@@ -98,7 +64,7 @@ Xe nổi bật
                     
                     {/* Badge */}
                     <div className="absolute top-3 left-3">
-                      {motorcycle.inStock ? (
+                      {motorcycle.isAvailable ? (
                         <Badge variant="success">Còn hàng</Badge>
                       ) : (
                         <Badge variant="error">Hết hàng</Badge>
@@ -116,13 +82,13 @@ Xe nổi bật
                   {/* Content */}
                   <div className="p-4">
                     <p className="text-sm text-neutral-500 dark:text-neutral-400">
-                      {motorcycle.category}
+                      {motorcycle.categoryName}
                     </p>
                     <h3 className="mt-1 text-lg font-semibold text-neutral-900 dark:text-white group-hover:text-primary-600 transition-colors">
                       {motorcycle.name}
                     </h3>
                     <p className="mt-2 text-xl font-bold text-primary-600 dark:text-primary-400">
-                      {formatPrice(motorcycle.price)}
+                      {formatPrice(motorcycle.minPrice)}
                     </p>
                   </div>
                 </Card>

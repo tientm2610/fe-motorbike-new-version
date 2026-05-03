@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { AppProvider } from "@/providers";
 import { StorefrontLayout } from "@/components/layout/storefront";
+import { SiteConfigLayout } from "@/components/site-config-layout";
+import { DynamicFavicon } from "@/components/favicon";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -23,6 +25,9 @@ export const metadata: Metadata = {
     description: "Discover premium Honda motorcycles with expert guidance, competitive pricing, and unparalleled service.",
     type: "website",
   },
+  icons: {
+    icon: "/favicon.ico", // This will be overridden by DynamicFavicon
+  },
 };
 
 export default function RootLayout({
@@ -36,11 +41,40 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable}`}
     >
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                var stored = localStorage.getItem('site-config-storage');
+                if (stored) {
+                  try {
+                    var data = JSON.parse(stored);
+                    if (data.state && data.state.config && data.state.config.favicon) {
+                      var link = document.querySelector('link[rel="icon"]');
+                      if (!link) {
+                        link = document.createElement('link');
+                        link.rel = 'icon';
+                        document.head.appendChild(link);
+                      }
+                      link.href = data.state.config.favicon;
+                      link.type = 'image/x-icon';
+                    }
+                  } catch(e) {}
+                }
+              })();
+            `,
+          }}
+        />
+      </head>
+      <DynamicFavicon />
       <body className="min-h-screen bg-background text-foreground antialiased">
         <AppProvider>
-          <StorefrontLayout>
-            {children}
-          </StorefrontLayout>
+          <SiteConfigLayout>
+            <StorefrontLayout>
+              {children}
+            </StorefrontLayout>
+          </SiteConfigLayout>
         </AppProvider>
       </body>
     </html>
