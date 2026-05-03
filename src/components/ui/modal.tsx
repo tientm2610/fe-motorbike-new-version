@@ -18,6 +18,7 @@ interface ModalProps {
   className?: string;
   size?: "sm" | "md" | "lg" | "xl" | "full";
   showCloseButton?: boolean;
+  closeOnOverlayClick?: boolean;
 }
 
 const sizeStyles = {
@@ -35,19 +36,30 @@ export function Modal({
   className,
   size = "md",
   showCloseButton = true,
+  closeOnOverlayClick = true,
 }: ModalProps) {
+  const handleOverlayClick = (e: React.MouseEvent) => {
+    if (closeOnOverlayClick) {
+      onClose();
+    }
+  };
+
+  const handleContentClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+  };
+
   return (
     <AnimatePresence>
       {open && (
         <>
           <motion.div
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 cursor-pointer"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={onClose}
+            onClick={handleOverlayClick}
           />
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={handleOverlayClick}>
             <motion.div
               className={cn(
                 "w-full rounded-2xl bg-white p-6 shadow-2xl dark:bg-neutral-900",
@@ -58,6 +70,7 @@ export function Modal({
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
               transition={{ duration: 0.2 }}
+              onClick={handleContentClick}
             >
               {showCloseButton && (
                 <div className="absolute right-4 top-4">

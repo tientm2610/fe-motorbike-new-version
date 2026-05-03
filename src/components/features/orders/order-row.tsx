@@ -1,20 +1,17 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { Order } from "@/types";
 import { OrderStatusBadge } from "./order-status-badge";
-import { ButtonLink } from "@/components/ui";
+import { Button } from "@/components/ui";
 import { cn } from "@/lib";
 
 interface OrderRowProps {
   order: Order;
-  onCancel?: (orderId: number) => void;
-  isCancelling?: boolean;
+  onViewDetail?: (orderId: number) => void;
 }
 
-export function OrderRow({ order, onCancel, isCancelling }: OrderRowProps) {
-  const canCancel = order.status === "PENDING" || order.status === "CONFIRMED";
+export function OrderRow({ order, onViewDetail }: OrderRowProps) {
 
   return (
     <div className="bg-white dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800 overflow-hidden">
@@ -53,15 +50,13 @@ export function OrderRow({ order, onCancel, isCancelling }: OrderRowProps) {
 
         <div className="flex items-center gap-3">
           <OrderStatusBadge status={order.status} />
-          {canCancel && onCancel && (
-            <ButtonLink
-              href={`/orders/${order.id}`}
-              variant="outline"
-              size="sm"
-            >
-              Chi tiết
-            </ButtonLink>
-          )}
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => onViewDetail?.(order.id)}
+          >
+            Chi tiết
+          </Button>
         </div>
       </div>
 

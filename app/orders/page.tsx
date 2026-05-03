@@ -6,7 +6,7 @@ import { orderService } from "@/services/order.service";
 import { Order, OrderStatus } from "@/types";
 import { toast } from "@/stores/ui.store";
 import { OrderRow } from "@/components/features/orders/order-row";
-import { OrderStatusBadge } from "@/components/features/orders/order-status-badge";
+import { OrderDetailModal } from "@/components/features/orders/order-detail-modal";
 import { ButtonLink, Spinner } from "@/components/ui";
 import { cn } from "@/lib";
 
@@ -15,6 +15,8 @@ function OrdersContent() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedStatus, setSelectedStatus] = useState<OrderStatus | "ALL">("ALL");
+  const [selectedOrderId, setSelectedOrderId] = useState<number | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
   
   const success = searchParams.get("success");
   const orderCode = searchParams.get("orderCode");
@@ -24,6 +26,22 @@ function OrdersContent() {
       toast.success("Đặt hàng thành công!", `Mã đơn hàng: ${orderCode}`);
     }
   }, [success, orderCode]);
+
+  const handleViewDetail = (orderId: number) => {
+    setSelectedOrderId(orderId);
+    setModalOpen(true);
+  };
+
+  const handleOrderUpdated = (updatedOrder: Order) => {
+    setOrders(prev => prev.map(o => o.id === updatedOrder.id ? updatedOrder : o));
+    setModalOpen(false);
+    setSelectedOrderId(null);
+  };
+
+  const handleModalClose = () => {
+    setModalOpen(false);
+    setSelectedOrderId(null);
+  };
 
   useEffect(() => {
     async function fetchOrders() {
@@ -114,10 +132,17 @@ function OrdersContent() {
       ) : (
         <div className="space-y-4">
           {orders.map((order) => (
-            <OrderRow key={order.id} order={order} />
+            <OrderRow key={order.id} order={order} onViewDetail={handleViewDetail} />
           ))}
         </div>
       )}
+
+      <OrderDetailModal
+        orderId={selectedOrderId || 0}
+        open={modalOpen}
+        onClose={handleModalClose}
+        onOrderUpdated={handleOrderUpdated}
+      />
     </div>
   );
 }
