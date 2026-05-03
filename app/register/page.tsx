@@ -18,7 +18,7 @@ export default function RegisterPage() {
     password: "",
     confirmPassword: "",
   });
-  const [agreeTerms, setAgreeTerms] = useState(false);
+  const [agreeTerms, setAgreeTerms] = useState(true);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const validateForm = (): boolean => {
@@ -186,7 +186,7 @@ export default function RegisterPage() {
               )}
             </div>
 
-            <div>
+            {/* <div>
               <Checkbox
                 checked={agreeTerms}
                 onChange={(e) => setAgreeTerms(e.target.checked)}
@@ -206,7 +206,7 @@ export default function RegisterPage() {
               {errors.terms && (
                 <p className="mt-1 text-xs text-error">{errors.terms}</p>
               )}
-            </div>
+            </div> */}
 
             <Button 
               type="submit" 

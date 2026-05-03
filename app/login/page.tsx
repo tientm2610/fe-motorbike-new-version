@@ -108,7 +108,7 @@ export default function LoginPage() {
               )}
             </div>
 
-            <div className="flex items-center justify-between">
+            {/* <div className="flex items-center justify-between">
               <Checkbox
                 checked={rememberMe}
                 onChange={(e) => setRememberMe(e.target.checked)}
@@ -120,7 +120,7 @@ export default function LoginPage() {
               >
                 Quên mật khẩu?
               </Link>
-            </div>
+            </div> */}
 
             <Button 
               type="submit" 
