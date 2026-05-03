@@ -14,7 +14,7 @@ class AdminService {
     if (filters?.keyword) params.set("keyword", filters.keyword);
 
     const response = await apiClient.get<PaginatedResponse<MotorcycleListItem>>(
-      `/api/v1/admin/motorcycles?${params.toString()}`
+      `/api/v1/motorcycles?${params.toString()}`
     );
     if (response.data.code !== 1000) {
       throw new Error(response.data.message || "Failed to fetch motorcycles");
@@ -23,7 +23,7 @@ class AdminService {
   }
 
   async getMotorcycleById(id: number): Promise<Motorcycle> {
-    const response = await apiClient.get<Motorcycle>(`/api/v1/admin/motorcycles/${id}`);
+    const response = await apiClient.get<Motorcycle>(`/api/v1/motorcycles/${id}`);
     if (response.data.code !== 1000) {
       throw new Error(response.data.message || "Failed to fetch motorcycle");
     }
@@ -54,6 +54,14 @@ class AdminService {
   }
 
   // Variants
+  async getVariants(motorcycleId: number): Promise<Variant[]> {
+    const response = await apiClient.get<Variant[]>(`/api/v1/motorcycles/${motorcycleId}/variants`);
+    if (response.data.code !== 1000) {
+      throw new Error(response.data.message || "Failed to fetch variants");
+    }
+    return response.data.result as Variant[];
+  }
+
   async createVariant(motorcycleId: number, data: Partial<Variant>): Promise<Variant> {
     const response = await apiClient.post<Variant>("/api/v1/admin/variants", {
       ...data,

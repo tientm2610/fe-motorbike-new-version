@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { cn } from "@/lib";
 
@@ -19,11 +19,16 @@ interface ImageGalleryProps {
 export function ImageGallery({ images, productName }: ImageGalleryProps) {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
+  // Reset selectedIndex when images change (e.g., switching variants)
+  useEffect(() => {
+    setSelectedIndex(0);
+  }, [images]);
+
   const allImages = images.length > 0 
     ? images 
     : [{ id: 0, imageUrl: "/placeholder-motorcycle.jpg", isThumbnail: true, displayOrder: 0 }];
 
-  const selectedImage = allImages[selectedIndex];
+  const selectedImage = allImages[selectedIndex] || allImages[0];
 
   return (
     <div className="space-y-4">
@@ -37,11 +42,6 @@ export function ImageGallery({ images, productName }: ImageGalleryProps) {
           priority
           sizes="(max-width: 768px) 100vw, 50vw"
         />
-        
-        {/* Zoom hint */}
-        <div className="absolute bottom-4 right-4 px-3 py-1.5 bg-black/50 backdrop-blur-sm rounded-full text-xs text-white">
-          Hover to zoom
-        </div>
       </div>
 
       {/* Thumbnail Grid */}
