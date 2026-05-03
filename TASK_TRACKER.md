@@ -99,28 +99,44 @@
 ## Phase 4: Admin Dashboard
 
 ### 4.1 Dashboard
-- [ ] 4.1.1 Admin layout setup
+- [✅] 4.1.1 Admin layout setup
 - [ ] 4.1.2 Stats cards (revenue, orders, etc.)
 - [ ] 4.1.3 Revenue chart
 - [ ] 4.1.4 Recent orders
 - [ ] 4.1.5 Top products
 
 ### 4.2 Orders Management
-- [ ] 4.2.1 Orders list (`/admin/orders`)
-- [ ] 4.2.2 Order filters
-- [ ] 4.2.3 Update order status
+- [✅] 4.2.1 Orders list (`/admin/orders`)
+- [✅] 4.2.2 Order filters (by status, date range)
+- [✅] 4.2.3 Update order status (PENDING→CONFIRMED→PROCESSING→SHIPPED→DELIVERED)
 - [ ] 4.2.4 Order detail view
+- [ ] 4.2.5 Cancel order
 
 ### 4.3 Products Management
-- [ ] 4.3.1 Products list (`/admin/motorcycles`)
-- [ ] 4.3.2 Add product form
+- [✅] 4.3.1 Products list (`/admin/motorcycles`)
+- [ ] 4.3.2 Add product form (name, code, slug, description, brand, category, specs, status)
 - [ ] 4.3.3 Edit product form
-- [ ] 4.3.4 Delete product
-- [ ] 4.3.5 Variant management
+- [✅] 4.3.4 Delete product
+- [ ] 4.3.5 Product status toggle (ACTIVE/INACTIVE)
+- [ ] 4.3.6 Variants list (per product)
+- [ ] 4.3.7 Add variant form (variantName, colorName, colorCode, sku, price, stock, status)
+- [ ] 4.3.8 Edit variant form
+- [ ] 4.3.9 Delete variant
+- [ ] 4.3.10 Stock management (update quantity)
+- [ ] 4.3.11 Image management - add by URL
+- [ ] 4.3.12 Image management - upload file (multipart)
+- [ ] 4.3.13 Image management - set thumbnail
+- [ ] 4.3.14 Image management - delete image
 
 ### 4.4 Brand & Category
-- [ ] 4.4.1 Brand CRUD
-- [ ] 4.4.2 Category CRUD
+- [✅] 4.4.1 Brand list
+- [✅] 4.4.2 Add brand form
+- [ ] 4.4.3 Edit brand
+- [✅] 4.4.4 Delete brand
+- [✅] 4.4.5 Category list
+- [✅] 4.4.6 Add category form
+- [ ] 4.4.7 Edit category
+- [✅] 4.4.8 Delete category
 
 ---
 
@@ -128,11 +144,14 @@
 
 ### 5.1 Staff Dashboard
 - [ ] 5.1.1 Staff layout
-- [ ] 5.1.2 Quick stats
+- [ ] 5.1.2 Quick stats (today orders, pending orders)
 
 ### 5.2 Staff Orders
 - [ ] 5.2.1 Orders list (`/staff/orders`)
-- [ ] 5.2.2 Update status (limited)
+- [ ] 5.2.2 View order details
+- [ ] 5.2.3 Update order status (CONFIRMED→PROCESSING→SHIPPED - limited, CANNOT cancel)
+- [ ] 5.2.4 Cannot access products/brand/category management
+- [ ] 5.2.5 Cannot access dashboard statistics
 
 ---
 
@@ -167,13 +186,17 @@ Phase 2: Storefront    [ 25 / 25 ] 100% ✅
   - 2.5 Checkout      [ 4 / 4 ] 100%
   - 2.6 My Orders     [ 3 / 3 ] 100%
 Phase 3: Auth          [ 6 / 6 ] 100% ✅
-Phase 4: Admin         [ 0 / 16 ] 0%
-Phase 5: Staff         [ 0 / 4 ] 0%
+Phase 4: Admin         [ 10 / 29 ] 34%
+  - 4.1 Dashboard     [ 1 / 5 ]
+  - 4.2 Orders        [ 3 / 5 ]
+  - 4.3 Products      [ 2 / 14 ]
+  - 4.4 Brand/Category[ 4 / 8 ]
+Phase 5: Staff         [ 0 / 5 ] 0%
 Phase 6: Polish        [ 0 / 7 ] 0%
 ──────────────────────────────
-TOTAL:                 [ 48 / 70 ] 69%
+TOTAL:                 [ 58 / 84 ] 69%
 ```
 
 ---
 
-*Last updated: Phase 3 Auth Complete ✅*
+*Last updated: Phase 4 - Partial Admin features implemented*

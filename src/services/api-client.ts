@@ -109,6 +109,17 @@ class ApiClient {
   patch<T>(url: string, data?: unknown, config?: InternalAxiosRequestConfig) {
     return this.client.patch<ApiResponse<T>>(url, data, config);
   }
+
+  uploadFile<T>(url: string, formData: FormData): Promise<T> {
+    return this.client.post<ApiResponse<T>>(url, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    }).then(res => {
+      if (res.data.code !== API_RESPONSE_CODES.SUCCESS) {
+        throw new Error(res.data.message || "Upload failed");
+      }
+      return res.data.result as T;
+    });
+  }
 }
 
 export const apiClient = new ApiClient();

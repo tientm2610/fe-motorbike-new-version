@@ -94,7 +94,7 @@ export function UserMenu() {
               Đơn hàng của tôi
             </Link>
 
-            <Link 
+            {/* <Link 
               href="/profile"
               onClick={() => setIsOpen(false)}
               className="flex items-center gap-3 px-4 py-2 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800"
@@ -103,9 +103,9 @@ export function UserMenu() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
               </svg>
               Thông tin tài khoản
-            </Link>
+            </Link> */}
 
-            <Link 
+            {/* <Link 
               href="/addresses"
               onClick={() => setIsOpen(false)}
               className="flex items-center gap-3 px-4 py-2 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800"
@@ -115,7 +115,7 @@ export function UserMenu() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
               </svg>
               Sổ địa chỉ
-            </Link>
+            </Link> */}
 
             {/* Admin/Staff Links */}
             {(isAdmin || isStaff) && (

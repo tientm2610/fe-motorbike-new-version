@@ -34,6 +34,14 @@ class OrderService {
     return response.data.result as Order;
   }
 
+  async getAdminOrderById(id: number): Promise<Order> {
+    const response = await apiClient.get<Order>(`/api/v1/admin/orders/${id}`);
+    if (response.data.code !== 1000) {
+      throw new Error(response.data.message || "Failed to fetch order");
+    }
+    return response.data.result as Order;
+  }
+
   async getOrderByCode(orderCode: string): Promise<Order> {
     const response = await apiClient.get<Order>(`/api/v1/orders/${orderCode}`);
     if (response.data.code !== 1000) {

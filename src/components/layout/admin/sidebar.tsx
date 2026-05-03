@@ -55,10 +55,16 @@ const SettingsIcon = () => (
 );
 
 const sidebarLinks = [
-{ href: "/admin", label: "Tổng quan", icon: DashboardIcon },
+  { href: "/admin", label: "Tổng quan", icon: DashboardIcon },
   { href: "/admin/orders", label: "Đơn hàng", icon: OrdersIcon },
+  { href: "/admin/motorcycles", label: "Sản phẩm", icon: MotorcycleIcon },
   { href: "/admin/customers", label: "Khách hàng", icon: UsersIcon },
   { href: "/admin/settings", label: "Cài đặt", icon: SettingsIcon },
+];
+
+const bottomLinks = [
+  { href: "/admin/brands", label: "Thương hiệu", icon: MotorcycleIcon },
+  { href: "/admin/categories", label: "Danh mục", icon: MotorcycleIcon },
 ];
 
 interface SidebarProps {
@@ -118,6 +124,36 @@ export function Sidebar({ collapsed = false, onToggle }: SidebarProps) {
             );
           })}
         </ul>
+        
+        {/* Bottom section - Brands & Categories */}
+        {!collapsed && (
+          <div className="mt-6 border-t border-neutral-200 pt-4 dark:border-neutral-800">
+            <p className="px-3 mb-2 text-xs font-semibold text-neutral-400 uppercase tracking-wider">
+              Quản lý
+            </p>
+            <ul className="space-y-1">
+              {bottomLinks.map((link) => {
+                const isActive = pathname === link.href || pathname.startsWith(link.href);
+                return (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      className={cn(
+                        "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                        isActive
+                          ? "bg-primary-50 text-primary-700 dark:bg-primary-900/20 dark:text-primary-300"
+                          : "text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-white"
+                      )}
+                    >
+                      <link.icon />
+                      <span>{link.label}</span>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        )}
       </nav>
 
       {/* Bottom */}
