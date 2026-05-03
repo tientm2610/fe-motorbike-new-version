@@ -358,6 +358,83 @@ POST /api/v1/auth/refresh
 
 ---
 
+## Site Configuration (Role: ADMIN)
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/v1/admin/site-config` | Get site configuration |
+| PUT | `/api/v1/admin/site-config` | Update site configuration |
+
+**GetSiteConfigResponse:**
+```json
+{
+  "id": 1,
+  "logo": "https://cdn.example.com/logo.png",
+  "shopName": "Honda Dealership",
+  "primaryColor": "#e31837",
+  "secondaryColor": "#ffffff",
+  "banner": "https://cdn.example.com/banner.jpg",
+  "slogan": "Ride Your Dream",
+  "favicon": "https://cdn.example.com/favicon.ico",
+  "heroTitle": "Ride Your Dream Bike",
+  "heroSubtitle": "Discover premium Honda motorcycles with expert guidance...",
+  "ctaPrimaryText": "Khám phá xe máy",
+  "ctaPrimaryLink": "/motorcycles",
+  "ctaSecondaryText": "Tìm hiểu thêm",
+  "ctaSecondaryLink": "/about"
+}
+```
+
+**UpdateSiteConfigRequest:**
+```json
+{
+  "logo": "https://cdn.example.com/logo.png",
+  "shopName": "Honda Dealership",
+  "primaryColor": "#e31837",
+  "secondaryColor": "#ffffff",
+  "banner": "https://cdn.example.com/banner.jpg",
+  "slogan": "Ride Your Dream",
+  "favicon": "https://cdn.example.com/favicon.ico",
+  "heroTitle": "Ride Your Dream Bike",
+  "heroSubtitle": "Discover premium Honda motorcycles with expert guidance...",
+  "ctaPrimaryText": "Khám phá xe máy",
+  "ctaPrimaryLink": "/motorcycles",
+  "ctaSecondaryText": "Tìm hiểu thêm",
+  "ctaSecondaryLink": "/about"
+}
+```
+
+**Note:** All fields are optional. Only send fields you want to update.
+
+---
+
+## Site Configuration - Upload (Role: ADMIN)
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/v1/admin/site-config/logo` | Upload logo image |
+| POST | `/api/v1/admin/site-config/favicon` | Upload favicon image |
+| POST | `/api/v1/admin/site-config/banner` | Upload banner image |
+
+**Upload Request:**
+- Content-Type: `multipart/form-data`
+- Field name: `file`
+- Allowed: jpg, jpeg, png, webp (max 5MB)
+
+**Response:**
+```json
+{
+  "code": 1000,
+  "message": "Success",
+  "result": {
+    "id": 1,
+    "logo": "https://cdn.cloudinary.com/.../logo.png",
+    ...
+  }
+}
+
+---
+
 ## Enums Reference
 
 ### UserRole

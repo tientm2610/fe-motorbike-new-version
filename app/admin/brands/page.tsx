@@ -5,12 +5,19 @@ import { adminService } from "@/services/admin.service";
 import { Brand } from "@/types";
 import { toast } from "@/stores/ui.store";
 import { Button, Spinner, Input } from "@/components/ui";
+import { Modal, ModalBody, ModalHeader, ModalFooter } from "@/components/ui/modal";
 
 export default function AdminBrandsPage() {
   const [brands, setBrands] = useState<Brand[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isAdding, setIsAdding] = useState(false);
   const [newBrandName, setNewBrandName] = useState("");
+
+  // Edit modal state
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [editingBrand, setEditingBrand] = useState<Brand | null>(null);
+  const [editName, setEditName] = useState("");
+  const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
     fetchBrands();
@@ -54,6 +61,28 @@ export default function AdminBrandsPage() {
       fetchBrands();
     } catch (error) {
       toast.error("Lỗi", "Không thể xóa thương hiệu");
+    }
+  };
+
+  const openEditModal = (brand: Brand) => {
+    setEditingBrand(brand);
+    setEditName(brand.name);
+    setEditModalOpen(true);
+  };
+
+  const handleSaveEdit = async () => {
+    if (!editingBrand || !editName.trim()) return;
+    
+    setIsSaving(true);
+    try {
+      await adminService.updateBrand(editingBrand.id, editName);
+      toast.success("Thành công", "Đã cập nhật thương hiệu");
+      setEditModalOpen(false);
+      fetchBrands();
+    } catch (error) {
+      toast.error("Lỗi", "Không thể cập nhật thương hiệu");
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -123,14 +152,23 @@ export default function AdminBrandsPage() {
                     )}
                   </td>
                   <td className="px-4 py-3 text-right">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => handleDeleteBrand(brand.id, brand.name)}
-                      className="text-error hover:text-error"
-                    >
-                      Xóa
-                    </Button>
+                    <div className="flex items-center justify-end gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => openEditModal(brand)}
+                      >
+                        Sửa
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleDeleteBrand(brand.id, brand.name)}
+                        className="text-error hover:text-error"
+                      >
+                        Xóa
+                      </Button>
+                    </div>
                   </td>
                 </tr>
               ))
@@ -138,6 +176,27 @@ export default function AdminBrandsPage() {
           </tbody>
         </table>
       </div>
+
+      {/* Edit Modal */}
+      <Modal open={editModalOpen} onClose={() => setEditModalOpen(false)}>
+        <ModalHeader>Chỉnh sửa thương hiệu</ModalHeader>
+        <ModalBody>
+          <div>
+            <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">
+              Tên thương hiệu
+            </label>
+            <Input
+              value={editName}
+              onChange={(e) => setEditName(e.target.value)}
+              placeholder="Nhập tên thương hiệu..."
+            />
+          </div>
+        </ModalBody>
+        <ModalFooter>
+          <Button variant="ghost" onClick={() => setEditModalOpen(false)}>Hủy</Button>
+          <Button onClick={handleSaveEdit} isLoading={isSaving}>Lưu</Button>
+        </ModalFooter>
+      </Modal>
     </div>
   );
 }

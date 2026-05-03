@@ -5,12 +5,19 @@ import { adminService } from "@/services/admin.service";
 import { Category } from "@/types";
 import { toast } from "@/stores/ui.store";
 import { Button, Spinner, Input } from "@/components/ui";
+import { Modal, ModalBody, ModalHeader, ModalFooter } from "@/components/ui/modal";
 
 export default function AdminCategoriesPage() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isAdding, setIsAdding] = useState(false);
   const [newCategoryName, setNewCategoryName] = useState("");
+
+  // Edit modal state
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [editingCategory, setEditingCategory] = useState<Category | null>(null);
+  const [editName, setEditName] = useState("");
+  const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
     fetchCategories();
@@ -54,6 +61,28 @@ export default function AdminCategoriesPage() {
       fetchCategories();
     } catch (error) {
       toast.error("Lỗi", "Không thể xóa danh mục");
+    }
+  };
+
+  const openEditModal = (category: Category) => {
+    setEditingCategory(category);
+    setEditName(category.name);
+    setEditModalOpen(true);
+  };
+
+  const handleSaveEdit = async () => {
+    if (!editingCategory || !editName.trim()) return;
+    
+    setIsSaving(true);
+    try {
+      await adminService.updateCategory(editingCategory.id, editName);
+      toast.success("Thành công", "Đã cập nhật danh mục");
+      setEditModalOpen(false);
+      fetchCategories();
+    } catch (error) {
+      toast.error("Lỗi", "Không thể cập nhật danh mục");
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -119,14 +148,23 @@ export default function AdminCategoriesPage() {
                     {category.description || "-"}
                   </td>
                   <td className="px-4 py-3 text-right">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => handleDeleteCategory(category.id, category.name)}
-                      className="text-error hover:text-error"
-                    >
-                      Xóa
-                    </Button>
+                    <div className="flex items-center justify-end gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => openEditModal(category)}
+                      >
+                        Sửa
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleDeleteCategory(category.id, category.name)}
+                        className="text-error hover:text-error"
+                      >
+                        Xóa
+                      </Button>
+                    </div>
                   </td>
                 </tr>
               ))
@@ -134,6 +172,27 @@ export default function AdminCategoriesPage() {
           </tbody>
         </table>
       </div>
+
+      {/* Edit Modal */}
+      <Modal open={editModalOpen} onClose={() => setEditModalOpen(false)}>
+        <ModalHeader>Chỉnh sửa danh mục</ModalHeader>
+        <ModalBody>
+          <div>
+            <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">
+              Tên danh mục
+            </label>
+            <Input
+              value={editName}
+              onChange={(e) => setEditName(e.target.value)}
+              placeholder="Nhập tên danh mục..."
+            />
+          </div>
+        </ModalBody>
+        <ModalFooter>
+          <Button variant="ghost" onClick={() => setEditModalOpen(false)}>Hủy</Button>
+          <Button onClick={handleSaveEdit} isLoading={isSaving}>Lưu</Button>
+        </ModalFooter>
+      </Modal>
     </div>
   );
 }

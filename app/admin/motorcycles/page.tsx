@@ -5,7 +5,7 @@ import Link from "next/link";
 import { adminService } from "@/services/admin.service";
 import { MotorcycleListItem } from "@/types";
 import { toast } from "@/stores/ui.store";
-import { Button, Spinner, ButtonLink } from "@/components/ui";
+import { Button, Spinner, ButtonLink, Skeleton, SkeletonList } from "@/components/ui";
 import { cn } from "@/lib";
 
 const formatCurrency = (amount: number) => {
@@ -56,8 +56,15 @@ export default function AdminMotorcyclesPage() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <Spinner size="lg" />
+      <div>
+        <div className="mb-8 flex justify-between">
+          <div>
+            <Skeleton className="h-8 w-48 mb-2" />
+            <Skeleton className="h-4 w-64" />
+          </div>
+          <Skeleton className="h-10 w-32" />
+        </div>
+        <SkeletonList count={5} />
       </div>
     );
   }

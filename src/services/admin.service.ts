@@ -1,5 +1,5 @@
 import apiClient from "./api-client";
-import type { Motorcycle, MotorcycleListItem, MotorcycleFilters, PaginatedResponse, Brand, Category, Variant } from "@/types";
+import type { Motorcycle, MotorcycleListItem, MotorcycleFilters, PaginatedResponse, Brand, Category, Variant, SiteConfig, UpdateSiteConfigRequest } from "@/types";
 
 class AdminService {
   // Motorcycles - Admin endpoints
@@ -181,6 +181,44 @@ class AdminService {
     if (response.data.code !== 1000) {
       throw new Error(response.data.message || "Failed to delete category");
     }
+  }
+
+  // Site Configuration
+  async getSiteConfig(): Promise<SiteConfig> {
+    const response = await apiClient.get<SiteConfig>("/api/v1/admin/site-config");
+    if (response.data.code !== 1000) {
+      throw new Error(response.data.message || "Failed to fetch site config");
+    }
+    return response.data.result as SiteConfig;
+  }
+
+  async updateSiteConfig(data: UpdateSiteConfigRequest): Promise<SiteConfig> {
+    const response = await apiClient.put<SiteConfig>("/api/v1/admin/site-config", data);
+    if (response.data.code !== 1000) {
+      throw new Error(response.data.message || "Failed to update site config");
+    }
+    return response.data.result as SiteConfig;
+  }
+
+  async uploadSiteLogo(file: File): Promise<SiteConfig> {
+    const formData = new FormData();
+    formData.append("file", file);
+    const response = await apiClient.uploadFile<SiteConfig>("/api/v1/admin/site-config/logo", formData);
+    return response;
+  }
+
+  async uploadSiteFavicon(file: File): Promise<SiteConfig> {
+    const formData = new FormData();
+    formData.append("file", file);
+    const response = await apiClient.uploadFile<SiteConfig>("/api/v1/admin/site-config/favicon", formData);
+    return response;
+  }
+
+  async uploadSiteBanner(file: File): Promise<SiteConfig> {
+    const formData = new FormData();
+    formData.append("file", file);
+    const response = await apiClient.uploadFile<SiteConfig>("/api/v1/admin/site-config/banner", formData);
+    return response;
   }
 }
 

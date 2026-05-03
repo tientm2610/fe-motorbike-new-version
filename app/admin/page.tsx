@@ -1,10 +1,36 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
 import { orderService } from "@/services/order.service";
 import { useAuth } from "@/hooks/use-auth";
 import { Card, Spinner } from "@/components/ui";
 import { cn } from "@/lib";
+import type { OrderStatus } from "@/types";
+
+interface RevenueData {
+  date: string;
+  revenue: number;
+  orders: number;
+}
+
+interface TopProduct {
+  id: number;
+  name: string;
+  thumbnailUrl: string;
+  totalSold: number;
+  revenue: number;
+}
+
+interface RecentOrder {
+  id: number;
+  orderCode: string;
+  shippingName: string;
+  totalAmount: number;
+  status: string;
+  createdAt: string;
+}
 
 const formatCurrency = (amount: number) => {
   return new Intl.NumberFormat("vi-VN", {
@@ -57,17 +83,29 @@ export default function AdminDashboardPage() {
     totalRevenue: 0,
     totalCustomers: 0,
   });
+  const [revenueData, setRevenueData] = useState<RevenueData[]>([]);
+  const [topProducts, setTopProducts] = useState<TopProduct[]>([]);
+  const [recentOrders, setRecentOrders] = useState<RecentOrder[]>([]);
 
   useEffect(() => {
     async function fetchStats() {
       try {
-        const summary = await orderService.getDashboardSummary();
+        const [summary, revenue, topProd, ordersRes] = await Promise.all([
+          orderService.getDashboardSummary(),
+          orderService.getRevenueData(30),
+          orderService.getTopProducts(5),
+          orderService.getAllOrders({ status: "PENDING", size: 100 }),
+        ]);
+        
         setStats({
           totalOrders: summary.totalOrders,
-          pendingOrders: summary.totalOrders,
+          pendingOrders: ordersRes.content.length,
           totalRevenue: summary.totalRevenue,
           totalCustomers: summary.totalCustomers,
         });
+        setRevenueData(revenue);
+        setTopProducts(topProd);
+        setRecentOrders(ordersRes.content.slice(0, 5));
       } catch (error) {
         console.error("Failed to fetch dashboard stats:", error);
       } finally {
@@ -206,6 +244,124 @@ export default function AdminDashboardPage() {
               <p className="text-sm text-neutral-500">Thêm/sửa danh mục xe</p>
             </div>
           </a>
+        </div>
+      </div>
+
+      {/* Revenue Chart */}
+      <div className="mt-8">
+        <h2 className="text-lg font-semibold text-neutral-900 dark:text-white mb-4">
+          Doanh thu 30 ngày gần nhất
+        </h2>
+        <Card className="p-6">
+          {revenueData.length > 0 ? (
+            <div className="h-64 flex items-end gap-1">
+              {revenueData.map((day, index) => {
+                const maxRevenue = Math.max(...revenueData.map(d => d.revenue), 1);
+                const height = (day.revenue / maxRevenue) * 100;
+                return (
+                  <div key={index} className="flex-1 flex flex-col items-center gap-1">
+                    <div
+                      className="w-full bg-primary-500 rounded-t hover:bg-primary-600 transition-colors min-h-[4px]"
+                      style={{ height: `${height}%` }}
+                      title={`${formatCurrency(day.revenue)}`}
+                    />
+                    <span className="text-xs text-neutral-400">{new Date(day.date).getDate()}</span>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="h-64 flex items-center justify-center text-neutral-500">
+              Chưa có dữ liệu doanh thu
+            </div>
+          )}
+        </Card>
+      </div>
+
+      {/* Recent Orders & Top Products */}
+      <div className="mt-8 grid gap-6 lg:grid-cols-2">
+        {/* Recent Orders */}
+        <div>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-neutral-900 dark:text-white">
+              Đơn hàng gần nhất
+            </h2>
+            <Link href="/admin/orders" className="text-sm text-primary-600 hover:text-primary-700">
+              Xem tất cả →
+            </Link>
+          </div>
+          <Card className="divide-y divide-neutral-200 dark:divide-neutral-800">
+            {recentOrders.length > 0 ? (
+              recentOrders.map((order) => (
+                <div key={order.id} className="p-4 flex items-center justify-between">
+                  <div>
+                    <p className="font-medium text-neutral-900 dark:text-white">{order.orderCode}</p>
+                    <p className="text-sm text-neutral-500">{order.shippingName} • {new Date(order.createdAt).toLocaleDateString("vi-VN")}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="font-medium text-neutral-900 dark:text-white">{formatCurrency(order.totalAmount)}</p>
+                    <span className={cn(
+                      "text-xs px-2 py-0.5 rounded-full",
+                      order.status === "PENDING" && "bg-warning/10 text-warning",
+                      order.status === "CONFIRMED" && "bg-info/10 text-info",
+                      order.status === "PROCESSING" && "bg-info/10 text-info",
+                      order.status === "SHIPPED" && "bg-primary-50 text-primary-700",
+                      order.status === "DELIVERED" && "bg-success/10 text-success",
+                      order.status === "CANCELLED" && "bg-error/10 text-error",
+                    )}>
+                      {order.status === "PENDING" && "Chờ xác nhận"}
+                      {order.status === "CONFIRMED" && "Đã xác nhận"}
+                      {order.status === "PROCESSING" && "Đang xử lý"}
+                      {order.status === "SHIPPED" && "Đang giao"}
+                      {order.status === "DELIVERED" && "Đã giao"}
+                      {order.status === "CANCELLED" && "Đã hủy"}
+                    </span>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="p-8 text-center text-neutral-500">Chưa có đơn hàng nào</div>
+            )}
+          </Card>
+        </div>
+
+        {/* Top Products */}
+        <div>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-neutral-900 dark:text-white">
+              Sản phẩm bán chạy
+            </h2>
+            <Link href="/admin/motorcycles" className="text-sm text-primary-600 hover:text-primary-700">
+              Xem tất cả →
+            </Link>
+          </div>
+          <Card className="divide-y divide-neutral-200 dark:divide-neutral-800">
+            {topProducts.length > 0 ? (
+              topProducts.map((product, index) => (
+                <div key={product.id} className="p-4 flex items-center gap-4">
+                  <span className="text-lg font-bold text-neutral-300">#{index + 1}</span>
+                  <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-neutral-200 flex-shrink-0">
+                    <Image
+                      src={product.thumbnailUrl || "/placeholder.png"}
+                      alt={product.name}
+                      fill
+                      className="object-cover"
+                      sizes="48px"
+                    />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-medium text-neutral-900 dark:text-white truncate">{product.name}</p>
+                    <p className="text-sm text-neutral-500">Đã bán: {product.totalSold}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="font-medium text-primary-600">{formatCurrency(product.revenue)}</p>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="p-8 text-center text-neutral-500">Chưa có sản phẩm nào</div>
+            )}
+          </Card>
         </div>
       </div>
     </div>
