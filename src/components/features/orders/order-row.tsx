@@ -68,31 +68,39 @@ export function OrderRow({ order, onCancel, isCancelling }: OrderRowProps) {
       {/* Order Items Preview */}
       <div className="p-4">
         <div className="flex flex-wrap gap-3">
-          {order.items.slice(0, 3).map((item) => (
-            <div key={item.id} className="flex items-center gap-3">
-              <div className="relative w-16 h-16 rounded-lg overflow-hidden bg-neutral-100 dark:bg-neutral-800">
-                <Image
-                  src={item.imageUrl}
-                  alt={item.motorcycleName}
-                  fill
-                  className="object-cover"
-                  sizes="64px"
-                />
-              </div>
-              <div className="min-w-0">
-                <p className="text-sm font-medium text-neutral-900 dark:text-white truncate max-w-[200px]">
-                  {item.motorcycleName}
-                </p>
-                <p className="text-xs text-neutral-500 dark:text-neutral-400">
-                  {item.variantName} x {item.quantity}
-                </p>
-              </div>
-            </div>
-          ))}
-          {order.items.length > 3 && (
-            <div className="flex items-center justify-center w-16 h-16 rounded-lg bg-neutral-100 dark:bg-neutral-800 text-sm text-neutral-500">
-              +{order.items.length - 3}
-            </div>
+          {order.items && order.items.length > 0 ? (
+            <>
+              {order.items.slice(0, 3).map((item) => (
+                <div key={item.id} className="flex items-center gap-3">
+                  <div className="relative w-16 h-16 rounded-lg overflow-hidden bg-neutral-100 dark:bg-neutral-800">
+                    <Image
+                      src={item.imageUrl}
+                      alt={item.motorcycleName}
+                      fill
+                      className="object-cover"
+                      sizes="64px"
+                    />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-sm font-medium text-neutral-900 dark:text-white truncate max-w-[200px]">
+                      {item.motorcycleName}
+                    </p>
+                    <p className="text-xs text-neutral-500 dark:text-neutral-400">
+                      {item.variantName} x {item.quantity}
+                    </p>
+                  </div>
+                </div>
+              ))}
+              {order.items.length > 3 && (
+                <div className="flex items-center justify-center w-16 h-16 rounded-lg bg-neutral-100 dark:bg-neutral-800 text-sm text-neutral-500">
+                  +{order.items.length - 3}
+                </div>
+              )}
+            </>
+          ) : (
+            <p className="text-sm text-neutral-500 dark:text-neutral-400">
+              {order.totalItems} sản phẩm
+            </p>
           )}
         </div>
       </div>

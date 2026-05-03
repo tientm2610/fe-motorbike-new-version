@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Input } from "@/components/ui";
-import { cn } from "@/lib";
+import { Input, Button } from "@/components/ui";
 
 interface ShippingFormData {
   shippingName: string;
@@ -128,6 +127,12 @@ export function ShippingForm({ onSubmit, initialData }: ShippingFormProps) {
             rows={3}
             className="flex w-full rounded-lg border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-800 px-3 py-2 text-sm placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
           />
+        </div>
+
+        <div className="sm:col-span-2 mt-6 flex justify-end">
+          <Button type="submit">
+            Tiếp tục
+          </Button>
         </div>
       </div>
     </form>

@@ -146,12 +146,6 @@ function CheckoutContent() {
                 Thông tin giao hàng
               </h2>
               <ShippingForm onSubmit={handleShippingSubmit} initialData={checkoutData} />
-              
-              <div className="mt-6 flex justify-end">
-                <Button onClick={() => handleShippingSubmit(checkoutData)}>
-                  Tiếp tục
-                </Button>
-              </div>
             </div>
           )}
 
