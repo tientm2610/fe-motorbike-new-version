@@ -61,11 +61,11 @@ const CloseIcon = () => (
 );
 
 const navLinks = [
-  { href: "/motorcycles", label: "Motorcycles" },
-  { href: "/brands", label: "Brands" },
-  { href: "/accessories", label: "Accessories" },
-  { href: "/services", label: "Services" },
-  { href: "/about", label: "About" },
+  { href: "/motorcycles", label: "Xe máy" },
+  { href: "/brands", label: "Thương hiệu" },
+  { href: "/accessories", label: "Phụ kiện" },
+  { href: "/services", label: "Dịch vụ" },
+  { href: "/about", label: "Giới thiệu" },
 ];
 
 interface HeaderProps {
@@ -197,10 +197,10 @@ export function Header({ className }: HeaderProps) {
           {/* Mobile Actions */}
           <div className="mt-4 flex gap-2 border-t border-neutral-200 pt-4 dark:border-neutral-800">
             <Button variant="outline" className="flex-1">
-              Sign In
+              Đăng nhập
             </Button>
             <Button className="flex-1">
-              Get Started
+              Bắt đầu
             </Button>
           </div>
         </div>

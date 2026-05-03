@@ -24,10 +24,10 @@ export function CategoryShowcase({ categories }: CategoryShowcaseProps) {
             Danh mục xe
           </span>
           <h2 className="mt-4 text-3xl sm:text-4xl font-bold text-neutral-900 dark:text-white">
-            Find Your Perfect Bike
+            Tìm chiếc xe hoàn hảo cho bạn
           </h2>
           <p className="mt-4 text-lg text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto">
-            Choose from a variety of motorcycle categories to suit your needs
+            Lựa chọn từ nhiều dòng xe máy phù hợp với nhu cầu của bạn
           </p>
         </motion.div>
 
@@ -66,7 +66,7 @@ export function CategoryShowcase({ categories }: CategoryShowcaseProps) {
                       {category.description}
                     </p>
                     <p className="mt-3 text-sm font-medium text-primary-400">
-                      {category.productCount} models →
+                      {category.productCount} xe →
                     </p>
                   </div>
 

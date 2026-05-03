@@ -11,8 +11,8 @@ const features = [
         <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
       </svg>
     ),
-    title: "2-Year Warranty",
-    description: "Comprehensive coverage for peace of mind",
+    title: "Bảo hành 2 năm",
+    description: "Bảo hiểm toàn diện cho bạn yên tâm sử dụng",
   },
   {
     icon: (
@@ -20,8 +20,8 @@ const features = [
         <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
       </svg>
     ),
-    title: "Easy Financing",
-    description: "Flexible payment plans with competitive rates",
+    title: "Hỗ trợ trả góp",
+    description: "Kế hoạch thanh toán linh hoạt với lãi suất ưu đãi",
   },
   {
     icon: (
@@ -29,8 +29,8 @@ const features = [
         <path strokeLinecap="round" strokeLinejoin="round" d="M11 42h.583a.583.583 0 00.583-.583V39.75a.583.583 0 00-.583-.583h-1.167a.583.583 0 00-.583.583v1.667c0 .321.262.583.583.583H11m5.417-15.75h1.083a.583.583 0 01.583.583v1.667a.583.583 0 01-.583.583h-1.083a.583.583 0 01-.583-.583v-1.667c0-.321.262-.583.583-.583zM20.25 10.5h.708a.375.375 0 00.375-.375v-.667a.375.375 0 00-.375-.375h-1.083a.375.375 0 00-.375.375v.667c0 .207.168.375.375.375H20.25M9 12.75h.75a.375.375 0 00.375-.375v-.667a.375.375 0 00-.375-.375h-1.5a.375.375 0 00-.375.375v.667c0 .207.168.375.375.375H9M4.5 10.5h.708a.375.375 0 00.375-.375v-.667a.375.375 0 00-.375-.375H3.75a.375.375 0 00-.375.375v.667c0 .207.168.375.375.375H4.5M3 15.75h.708a.375.375 0 00.375-.375v-.667a.375.375 0 00-.375-.375H2.25a.375.375 0 00-.375.375v.667c0 .207.168.375.375.375H3M9 18h.75a.375.375 0 00.375-.375v-.667a.375.375 0 00-.375-.375h-1.5a.375.375 0 00-.375.375v.667c0 .207.168.375.375.375H9" />
       </svg>
     ),
-    title: "Trade-in Program",
-    description: "Get the best value for your current bike",
+    title: "Thu cũ đổi mới",
+    description: "Nhận giá tốt nhất cho xe cũ của bạn",
   },
   {
     icon: (
@@ -38,8 +38,8 @@ const features = [
         <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>
     ),
-    title: "Quick Delivery",
-    description: "Same-day processing and fast shipping",
+    title: "Giao hàng nhanh",
+    description: "Xử lý trong ngày và vận chuyển nhanh chóng",
   },
 ];
 

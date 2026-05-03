@@ -5,28 +5,28 @@ import { cn } from "@/lib";
 
 const footerLinks = {
   motorcycles: [
-    { label: "Scooter", href: "/motorcycles?category=scooter" },
-    { label: "Street", href: "/motorcycles?category=street" },
-    { label: "Sport", href: "/motorcycles?category=sport" },
-    { label: "Adventure", href: "/motorcycles?category=adventure" },
-    { label: "Classic", href: "/motorcycles?category=classic" },
+    { label: "Xe tay ga", href: "/motorcycles?category=scooter" },
+    { label: "Xe đường phố", href: "/motorcycles?category=street" },
+    { label: "Xe thể thao", href: "/motorcycles?category=sport" },
+    { label: "Xe adventure", href: "/motorcycles?category=adventure" },
+    { label: "Xe cổ điển", href: "/motorcycles?category=classic" },
   ],
   company: [
-    { label: "About Us", href: "/about" },
-    { label: "Careers", href: "/careers" },
-    { label: "News", href: "/news" },
-    { label: "Contact", href: "/contact" },
+    { label: "Về chúng tôi", href: "/about" },
+    { label: "Tuyển dụng", href: "/careers" },
+    { label: "Tin tức", href: "/news" },
+    { label: "Liên hệ", href: "/contact" },
   ],
   support: [
-    { label: "Help Center", href: "/help" },
-    { label: "Service Centers", href: "/service" },
-    { label: "Warranty", href: "/warranty" },
-    { label: "Parts", href: "/parts" },
+    { label: "Trung tâm hỗ trợ", href: "/help" },
+    { label: "Trung tâm bảo dưỡng", href: "/service" },
+    { label: "Bảo hành", href: "/warranty" },
+    { label: "Phụ tùng", href: "/parts" },
   ],
   legal: [
-    { label: "Privacy Policy", href: "/privacy" },
-    { label: "Terms of Service", href: "/terms" },
-    { label: "Cookie Policy", href: "/cookies" },
+    { label: "Chính sách bảo mật", href: "/privacy" },
+    { label: "Điều khoản dịch vụ", href: "/terms" },
+    { label: "Chính sách cookie", href: "/cookies" },
   ],
 };
 
@@ -82,7 +82,7 @@ export function Footer({ className }: FooterProps) {
               </span>
             </Link>
             <p className="mt-4 max-w-xs text-sm text-neutral-500 dark:text-neutral-400">
-              Your trusted destination for premium Honda motorcycles. Experience excellence in every ride.
+              Điểm đến đáng tin cậy cho các dòng xe Honda cao cấp. Trải nghiệm sự xuất sắc trong mỗi chuyến đi.
             </p>
             <div className="mt-6 flex gap-4">
               {socialLinks.map((social) => (
@@ -102,7 +102,7 @@ export function Footer({ className }: FooterProps) {
 
           {/* Motorcycles */}
           <div>
-            <h3 className="text-sm font-semibold text-neutral-900 dark:text-white">Motorcycles</h3>
+            <h3 className="text-sm font-semibold text-neutral-900 dark:text-white">Xe máy</h3>
             <ul className="mt-4 space-y-3">
               {footerLinks.motorcycles.map((link) => (
                 <li key={link.href}>
@@ -116,7 +116,7 @@ export function Footer({ className }: FooterProps) {
 
           {/* Company */}
           <div>
-            <h3 className="text-sm font-semibold text-neutral-900 dark:text-white">Company</h3>
+            <h3 className="text-sm font-semibold text-neutral-900 dark:text-white">Công ty</h3>
             <ul className="mt-4 space-y-3">
               {footerLinks.company.map((link) => (
                 <li key={link.href}>
@@ -130,7 +130,7 @@ export function Footer({ className }: FooterProps) {
 
           {/* Support */}
           <div>
-            <h3 className="text-sm font-semibold text-neutral-900 dark:text-white">Support</h3>
+            <h3 className="text-sm font-semibold text-neutral-900 dark:text-white">Hỗ trợ</h3>
             <ul className="mt-4 space-y-3">
               {footerLinks.support.map((link) => (
                 <li key={link.href}>
@@ -146,7 +146,7 @@ export function Footer({ className }: FooterProps) {
         {/* Bottom */}
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-neutral-200 pt-8 dark:border-neutral-800 md:flex-row">
           <p className="text-sm text-neutral-500 dark:text-neutral-400">
-            &copy; {new Date().getFullYear()} Honda Dealership. All rights reserved.
+            &copy; {new Date().getFullYear()} Honda Dealership. Tất cả các quyền được bảo lưu.
           </p>
           <div className="flex gap-6">
             {footerLinks.legal.map((link) => (

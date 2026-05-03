@@ -30,7 +30,7 @@ export function FeaturedMotorcycles({ motorcycles }: FeaturedMotorcyclesProps) {
           className="text-center mb-12"
         >
           <span className="inline-block px-4 py-1.5 rounded-full bg-primary-100 text-primary-700 text-sm font-medium dark:bg-primary-900/30 dark:text-primary-300">
-            New Arrivals
+            Sản phẩm mới
           </span>
           <h2 className="mt-4 text-3xl sm:text-4xl font-bold text-neutral-900 dark:text-white">
 Xe nổi bật
@@ -74,7 +74,7 @@ Xe nổi bật
                     {/* Quick View Button */}
                     <div className="absolute bottom-3 left-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity translate-y-2 group-hover:translate-y-0">
                       <Button size="sm" className="w-full">
-                        View Details
+                        Xem chi tiết
                       </Button>
                     </div>
                   </div>
