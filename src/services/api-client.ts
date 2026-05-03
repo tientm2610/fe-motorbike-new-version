@@ -28,6 +28,14 @@ class ApiClient {
     this.setupInterceptors();
   }
 
+  private clearAuthAndRedirect() {
+    localStorage.removeItem(STORAGE_KEYS.AUTH_TOKEN);
+    localStorage.removeItem(STORAGE_KEYS.REFRESH_TOKEN);
+    if (typeof window !== "undefined") {
+      window.location.href = "/login";
+    }
+  }
+
   private setupInterceptors() {
     this.client.interceptors.request.use(
       (config: InternalAxiosRequestConfig) => {
@@ -56,31 +64,32 @@ class ApiClient {
 
           try {
             const refreshToken = localStorage.getItem(STORAGE_KEYS.REFRESH_TOKEN);
-            if (refreshToken) {
-              const response = await axios.post(`${API_BASE_URL}/api/v1/auth/refresh`, {
-                refreshToken,
-              });
+            if (!refreshToken) {
+              this.clearAuthAndRedirect();
+              return Promise.reject(error);
+            }
 
-              if (response.data.code === API_RESPONSE_CODES.SUCCESS) {
-                const { accessToken, refreshToken: newRefreshToken } = response.data.result as {
-                  accessToken: string;
-                  refreshToken: string;
-                };
+            const response = await axios.post(`${API_BASE_URL}/api/v1/auth/refresh`, {
+              refreshToken,
+            });
 
-                localStorage.setItem(STORAGE_KEYS.AUTH_TOKEN, accessToken);
-                localStorage.setItem(STORAGE_KEYS.REFRESH_TOKEN, newRefreshToken);
+            if (response.data.code === API_RESPONSE_CODES.SUCCESS) {
+              const { accessToken, refreshToken: newRefreshToken } = response.data.result as {
+                accessToken: string;
+                refreshToken: string;
+              };
 
-                if (originalRequest.headers) {
-                  originalRequest.headers.Authorization = `Bearer ${accessToken}`;
-                }
+              localStorage.setItem(STORAGE_KEYS.AUTH_TOKEN, accessToken);
+              localStorage.setItem(STORAGE_KEYS.REFRESH_TOKEN, newRefreshToken);
 
-                return this.client(originalRequest);
+              if (originalRequest.headers) {
+                originalRequest.headers.Authorization = `Bearer ${accessToken}`;
               }
+
+              return this.client(originalRequest);
             }
           } catch (refreshError) {
-            localStorage.removeItem(STORAGE_KEYS.AUTH_TOKEN);
-            localStorage.removeItem(STORAGE_KEYS.REFRESH_TOKEN);
-            window.location.href = "/login";
+            this.clearAuthAndRedirect();
             return Promise.reject(refreshError);
           }
         }
