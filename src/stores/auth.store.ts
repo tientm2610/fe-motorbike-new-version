@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { persist, type StateStorage } from "zustand/middleware";
 import type { User, UserRole } from "@/types";
 import { authService } from "@/services/auth.service";
 import { STORAGE_KEYS } from "@/lib";
@@ -12,6 +12,7 @@ interface AuthState {
   isLoading: boolean;
   error: string | null;
   cartItemCount: number;
+  hasHydrated: boolean;
   
   login: (email: string, password: string) => Promise<void>;
   register: (email: string, password: string, fullName: string, phone: string) => Promise<void>;
@@ -19,6 +20,7 @@ interface AuthState {
   setUser: (user: User | null) => void;
   setCartItemCount: (count: number) => void;
   clearError: () => void;
+  setHasHydrated: (state: boolean) => void;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -31,6 +33,7 @@ export const useAuthStore = create<AuthState>()(
       isLoading: false,
       error: null,
       cartItemCount: 0,
+      hasHydrated: false,
 
       login: async (email: string, password: string) => {
         set({ isLoading: true, error: null });
@@ -155,6 +158,10 @@ export const useAuthStore = create<AuthState>()(
       clearError: () => {
         set({ error: null });
       },
+
+      setHasHydrated: (state: boolean) => {
+        set({ hasHydrated: state });
+      },
     }),
     {
       name: "auth-storage",
@@ -165,6 +172,9 @@ export const useAuthStore = create<AuthState>()(
         isAuthenticated: state.isAuthenticated,
         cartItemCount: state.cartItemCount,
       }),
+      onRehydrateStorage: () => (state) => {
+        state?.setHasHydrated(true);
+      },
     }
   )
 );

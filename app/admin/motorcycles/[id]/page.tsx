@@ -37,6 +37,20 @@ export default function MotorcycleDetailPage() {
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  // Edit variant modal state
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [editingVariant, setEditingVariant] = useState<Variant | null>(null);
+  const [editForm, setEditForm] = useState({
+    variantName: "",
+    colorName: "",
+    colorCode: "",
+    sku: "",
+    price: 0,
+    stockQuantity: 0,
+    status: "AVAILABLE" as "AVAILABLE" | "OUT_OF_STOCK" | "DISCONTINUED",
+  });
+  const [isSavingVariant, setIsSavingVariant] = useState(false);
+
   useEffect(() => {
     fetchData();
   }, [id]);
@@ -153,6 +167,37 @@ export default function MotorcycleDetailPage() {
       fetchData();
     } catch (error) {
       toast.error("Lỗi", "Không thể xóa ảnh");
+    }
+  };
+
+  // Edit variant functions
+  const openEditModal = (variant: Variant) => {
+    setEditingVariant(variant);
+    setEditForm({
+      variantName: variant.variantName,
+      colorName: variant.colorName,
+      colorCode: variant.colorCode || "",
+      sku: variant.sku,
+      price: variant.price,
+      stockQuantity: variant.stockQuantity,
+      status: variant.status,
+    });
+    setEditModalOpen(true);
+  };
+
+  const handleSaveVariant = async () => {
+    if (!editingVariant) return;
+    
+    setIsSavingVariant(true);
+    try {
+      await adminService.updateVariant(editingVariant.id, editForm);
+      toast.success("Thành công", "Đã cập nhật variant");
+      setEditModalOpen(false);
+      fetchData();
+    } catch (error) {
+      toast.error("Lỗi", "Không thể cập nhật variant");
+    } finally {
+      setIsSavingVariant(false);
     }
   };
 
@@ -303,6 +348,9 @@ export default function MotorcycleDetailPage() {
 
                   {/* Actions */}
                   <div className="flex items-center gap-2">
+                    <Button variant="outline" size="sm" onClick={() => openEditModal(variant)}>
+                      Sửa
+                    </Button>
                     <Button variant="outline" size="sm" onClick={() => openImageModal(variant)}>
                       📷 Ảnh ({variant.images?.length || 0})
                     </Button>
@@ -415,6 +463,130 @@ export default function MotorcycleDetailPage() {
         </ModalBody>
         <ModalFooter>
           <Button variant="ghost" onClick={() => setImageModalOpen(false)}>Đóng</Button>
+        </ModalFooter>
+      </Modal>
+
+      {/* Edit Variant Modal */}
+      <Modal open={editModalOpen} onClose={() => setEditModalOpen(false)} size="lg">
+        <ModalHeader>Chỉnh sửa Variant - {editingVariant?.variantName}</ModalHeader>
+        <ModalBody>
+          <div className="space-y-4">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div>
+                <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">
+                  Tên variant *
+                </label>
+                <Input
+                  value={editForm.variantName}
+                  onChange={(e) => setEditForm(prev => ({ ...prev, variantName: e.target.value }))}
+                  placeholder="Honda Vision 2026"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">
+                  SKU *
+                </label>
+                <Input
+                  value={editForm.sku}
+                  onChange={(e) => setEditForm(prev => ({ ...prev, sku: e.target.value }))}
+                  placeholder="HVN-VISION-ABC"
+                />
+              </div>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div>
+                <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">
+                  Tên màu *
+                </label>
+                <Input
+                  value={editForm.colorName}
+                  onChange={(e) => setEditForm(prev => ({ ...prev, colorName: e.target.value }))}
+                  placeholder="Đen"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">
+                  Mã màu (hex)
+                </label>
+                <Input
+                  value={editForm.colorCode}
+                  onChange={(e) => setEditForm(prev => ({ ...prev, colorCode: e.target.value }))}
+                  placeholder="#000000"
+                />
+              </div>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div>
+                <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">
+                  Giá (VND) *
+                </label>
+                <Input
+                  type="number"
+                  value={editForm.price}
+                  onChange={(e) => setEditForm(prev => ({ ...prev, price: Number(e.target.value) }))}
+                  placeholder="35000000"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">
+                  Số lượng tồn kho *
+                </label>
+                <Input
+                  type="number"
+                  value={editForm.stockQuantity}
+                  onChange={(e) => setEditForm(prev => ({ ...prev, stockQuantity: Number(e.target.value) }))}
+                  placeholder="10"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">
+                Trạng thái
+              </label>
+              <div className="flex gap-4">
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="editStatus"
+                    value="AVAILABLE"
+                    checked={editForm.status === "AVAILABLE"}
+                    onChange={() => setEditForm(prev => ({ ...prev, status: "AVAILABLE" }))}
+                    className="text-primary-600"
+                  />
+                  <span className="text-neutral-700 dark:text-neutral-300">Còn hàng</span>
+                </label>
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="editStatus"
+                    value="OUT_OF_STOCK"
+                    checked={editForm.status === "OUT_OF_STOCK"}
+                    onChange={() => setEditForm(prev => ({ ...prev, status: "OUT_OF_STOCK" }))}
+                    className="text-primary-600"
+                  />
+                  <span className="text-neutral-700 dark:text-neutral-300">Hết hàng</span>
+                </label>
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="editStatus"
+                    value="DISCONTINUED"
+                    checked={editForm.status === "DISCONTINUED"}
+                    onChange={() => setEditForm(prev => ({ ...prev, status: "DISCONTINUED" }))}
+                    className="text-primary-600"
+                  />
+                  <span className="text-neutral-700 dark:text-neutral-300">Ngừng kinh doanh</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </ModalBody>
+        <ModalFooter>
+          <Button variant="ghost" onClick={() => setEditModalOpen(false)}>Hủy</Button>
+          <Button onClick={handleSaveVariant} isLoading={isSavingVariant}>Lưu</Button>
         </ModalFooter>
       </Modal>
     </div>

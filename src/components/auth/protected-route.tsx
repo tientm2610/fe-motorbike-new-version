@@ -17,12 +17,12 @@ export function ProtectedRoute({
   allowedRoles, 
   redirectTo = "/login" 
 }: ProtectedRouteProps) {
-  const { isAuthenticated, isLoading, user, hasPermission } = useAuth();
+  const { isAuthenticated, isLoading, user, hasPermission, hasHydrated } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
 
   useEffect(() => {
-    if (isLoading) return;
+    if (isLoading || !hasHydrated) return;
 
     if (!isAuthenticated) {
       router.push(`${redirectTo}?redirect=${pathname}`);
@@ -32,9 +32,9 @@ export function ProtectedRoute({
     if (allowedRoles && user && !hasPermission(allowedRoles)) {
       router.push("/");
     }
-  }, [isAuthenticated, isLoading, user, hasPermission, allowedRoles, redirectTo, pathname, router]);
+  }, [isAuthenticated, isLoading, user, hasPermission, allowedRoles, redirectTo, pathname, router, hasHydrated]);
 
-  if (isLoading) {
+  if (!hasHydrated || isLoading) {
     return (
       <div className="flex min-h-[400px] items-center justify-center">
         <PageLoader />
