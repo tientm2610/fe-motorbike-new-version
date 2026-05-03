@@ -55,6 +55,13 @@ export default function MotorcycleDetailPage() {
       setVariants(variantsData);
       setBrands(brandsData);
       setCategories(categoriesData);
+
+      if (selectedVariant) {
+        const updatedVariant = variantsData.find(v => v.id === selectedVariant.id);
+        if (updatedVariant) {
+          setSelectedVariant(updatedVariant);
+        }
+      }
     } catch (error) {
       console.error("Failed to fetch data:", error);
       toast.error("Lỗi", "Không thể tải thông tin sản phẩm");
