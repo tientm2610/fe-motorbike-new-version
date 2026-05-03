@@ -50,8 +50,8 @@ export default function EditMotorcyclePage() {
         slug: motorcycle.slug || "",
         description: motorcycle.description || "",
         specsJson: motorcycle.specsJson || "{}",
-        brandId: motorcycle.brand?.id || 0,
-        categoryId: motorcycle.category?.id || 0,
+        brandId: motorcycle.brandId || 0,
+        categoryId: motorcycle.categoryId || 0,
         status: motorcycle.status || "ACTIVE",
       });
 

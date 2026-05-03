@@ -246,9 +246,9 @@ export default function MotorcycleDetailPage() {
               {motorcycle.status === "ACTIVE" ? "Hoạt động" : "Không hoạt động"}
             </span>
             <span className="text-neutral-500">•</span>
-            <span className="text-neutral-500">{motorcycle.brand.name}</span>
+            <span className="text-neutral-500">{motorcycle.brandName}</span>
             <span className="text-neutral-500">•</span>
-            <span className="text-neutral-500">{motorcycle.category.name}</span>
+            <span className="text-neutral-500">{motorcycle.categoryName}</span>
           </div>
         </div>
         <div className="flex gap-2">
