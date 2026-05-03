@@ -59,16 +59,21 @@ interface HeaderProps {
   className?: string;
 }
 
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 
 export function Header({ className }: HeaderProps) {
   const pathname = usePathname();
   const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { cartItemCount, isAuthenticated } = useAuth();
-  const { fetchCart, cart } = useCartStore();
+  const { isAuthenticated } = useAuth();
+  const cart = useCartStore((state) => state.cart);
+  const fetchCart = useCartStore((state) => state.fetchCart);
 
-  // Fetch cart when user is authenticated to get initial count
+  const cartItemCount = useMemo(() => {
+    if (!cart?.items) return 0;
+    return cart.items.reduce((total, item) => total + item.quantity, 0);
+  }, [cart?.items]);
+
   useEffect(() => {
     if (isAuthenticated && !cart) {
       fetchCart();

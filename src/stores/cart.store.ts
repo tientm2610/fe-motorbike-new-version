@@ -4,9 +4,8 @@ import type { Cart, CartItem } from "@/types";
 import { useAuthStore } from "./auth.store";
 
 const getCartItemCount = (cart: Cart | null | undefined): number => {
-  if (!cart) return 0;
-  // Handle both totalQuantity and calculate from items
-  return cart.totalQuantity ?? cart.items?.length ?? 0;
+  if (!cart || !cart.items) return 0;
+  return cart.items.reduce((total, item) => total + item.quantity, 0);
 };
 
 const updateCartItemCount = (cart: Cart | null | undefined) => {
@@ -51,8 +50,16 @@ export const useCartStore = create<CartState>((set, get) => ({
   addItem: async (variantId: number, quantity: number) => {
     set({ isLoading: true, error: null });
     try {
-      const cart = await cartService.addItem({ variantId, quantity });
-      const safeCart = cart || { items: [], totalQuantity: 0, subtotal: 0, estimatedTotal: 0 };
+      await cartService.addItem({ variantId, quantity });
+      const updatedCart = await cartService.getCart();
+      const safeCart = updatedCart 
+        ? { 
+            items: updatedCart.items || [], 
+            totalQuantity: updatedCart.totalQuantity ?? 0, 
+            subtotal: updatedCart.subtotal ?? 0, 
+            estimatedTotal: updatedCart.estimatedTotal ?? 0 
+          }
+        : { items: [], totalQuantity: 0, subtotal: 0, estimatedTotal: 0 };
       set({ cart: safeCart, isLoading: false });
       updateCartItemCount(safeCart);
     } catch (error) {
@@ -67,8 +74,16 @@ export const useCartStore = create<CartState>((set, get) => ({
   updateItem: async (itemId: number, quantity: number) => {
     set({ isLoading: true, error: null });
     try {
-      const cart = await cartService.updateItem(itemId, { quantity });
-      const safeCart = cart || { items: [], totalQuantity: 0, subtotal: 0, estimatedTotal: 0 };
+      await cartService.updateItem(itemId, { quantity });
+      const updatedCart = await cartService.getCart();
+      const safeCart = updatedCart 
+        ? { 
+            items: updatedCart.items || [], 
+            totalQuantity: updatedCart.totalQuantity ?? 0, 
+            subtotal: updatedCart.subtotal ?? 0, 
+            estimatedTotal: updatedCart.estimatedTotal ?? 0 
+          }
+        : { items: [], totalQuantity: 0, subtotal: 0, estimatedTotal: 0 };
       set({ cart: safeCart, isLoading: false });
       updateCartItemCount(safeCart);
     } catch (error) {
@@ -83,8 +98,9 @@ export const useCartStore = create<CartState>((set, get) => ({
   removeItem: async (itemId: number) => {
     set({ isLoading: true, error: null });
     try {
-      const cart = await cartService.removeItem(itemId);
-      const safeCart = cart || { items: [], totalQuantity: 0, subtotal: 0, estimatedTotal: 0 };
+      await cartService.removeItem(itemId);
+      const updatedCart = await cartService.getCart();
+      const safeCart = updatedCart || { items: [], totalQuantity: 0, subtotal: 0, estimatedTotal: 0 };
       set({ cart: safeCart, isLoading: false });
       updateCartItemCount(safeCart);
     } catch (error) {
@@ -114,16 +130,16 @@ export const useCartStore = create<CartState>((set, get) => ({
 }));
 
 export const useCartItems = (): CartItem[] => {
-  const cart = useCartStore.getState().cart;
+  const cart = useCartStore((state) => state.cart);
   return cart?.items || [];
 };
 
 export const useCartTotal = (): number => {
-  const cart = useCartStore.getState().cart;
+  const cart = useCartStore((state) => state.cart);
   return cart?.estimatedTotal || 0;
 };
 
 export const useCartQuantity = (): number => {
-  const cart = useCartStore.getState().cart;
+  const cart = useCartStore((state) => state.cart);
   return cart?.totalQuantity || 0;
 };

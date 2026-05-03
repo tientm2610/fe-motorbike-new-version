@@ -58,7 +58,7 @@ export function ProductDetailClient({ motorcycle }: ProductDetailClientProps) {
 
     setIsAddingToCart(true);
     try {
-      addItem(selectedVariant.id, quantity);
+      await addItem(selectedVariant.id, quantity);
       toast.success("Đã thêm vào giỏ hàng", "");
     } catch (error) {
       toast.error("Thêm vào giỏ hàng thất bại", "");
@@ -130,15 +130,6 @@ export function ProductDetailClient({ motorcycle }: ProductDetailClientProps) {
                   maximumFractionDigits: 0
                 }).format(currentPrice)}
               </span>
-              {motorcycle.minPrice !== currentPrice && (
-                <span className="text-lg text-neutral-400 line-through">
-                  {new Intl.NumberFormat("vi-VN", { 
-                    style: "currency", 
-                    currency: "VND",
-                    maximumFractionDigits: 0
-                  }).format(motorcycle.minPrice)}
-                </span>
-              )}
             </div>
 
             {/* Stock Status */}
