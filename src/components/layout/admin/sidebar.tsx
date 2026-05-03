@@ -164,7 +164,7 @@ export function Sidebar({ collapsed = false, onToggle }: SidebarProps) {
           </IconButton>
         )}
         <div className={cn("flex items-center gap-2", collapsed ? "flex-col" : "")}>
-          <ThemeToggle className={collapsed ? "" : "mr-auto"} />
+          {/* <ThemeToggle className={collapsed ? "" : "mr-auto"} /> */}
           <div className={cn("flex items-center gap-2", collapsed ? "mt-2" : "")}>
             <Avatar fallback="A" size="sm" />
             {!collapsed && (

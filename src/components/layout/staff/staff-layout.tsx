@@ -59,7 +59,7 @@ export function StaffLayout({ children, className }: StaffLayoutProps) {
 
         {/* Right: Actions */}
         <div className="flex items-center gap-2">
-          <ThemeToggle />
+          {/* <ThemeToggle /> */}
           <div className="flex items-center gap-2 border-l border-neutral-200 pl-2 dark:border-neutral-800 lg:border-l-0 lg:pl-0">
             <Avatar fallback="S" size="sm" />
             <span className="hidden text-sm text-neutral-700 dark:text-neutral-300 lg:inline">

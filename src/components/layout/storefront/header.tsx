@@ -121,7 +121,7 @@ export function Header({ className }: HeaderProps) {
           </div>
 
           {/* Theme Toggle */}
-          <ThemeToggle />
+          {/* <ThemeToggle /> */}
 
           {/* Cart */}
           <Link href="/cart" className="relative p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors">
